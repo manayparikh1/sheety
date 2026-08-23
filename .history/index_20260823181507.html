@@ -24,10 +24,6 @@
             --grey: #a9a9a9;
             --black-key: #494646;
             --line-black: #222222;
-            --glass: rgba(255, 255, 255, 0.18);
-            --glass-strong: rgba(255, 255, 255, 0.38);
-            --edge: rgba(255, 255, 255, 0.55);
-            --shade: 0 8px 32px rgba(31, 38, 60, .25);
         }
 
         html,
@@ -461,24 +457,25 @@
         let song = pr(D["Twinkle Twinkle"]), ctx, T = [], V = [], go = 0, st, H = {}, KP = {};
 
         const msg = m => { $("statusMsg").textContent = m; clearTimeout(st); st = setTimeout(() => $("statusMsg").textContent = "", 3500) };
-        const led = (x, y) => `<line class="ledger-line" x1=${x - 11} y1=${y} x2=${x + 11} y2=${y} />`;
+        const led = (x, y) => `<line class="ledger-line" x1=${x = 11} y1=${y} x2=${x + 11} y2=${y}/>`;
 
         function draw() {
-            let R = [[]], b = 0, W = 70 + 16 * 55 + 60;
+            let R = [[]], b = 0, W = (70 + 20 - 4) * 15 + 60;
             song.forEach((n, g) => {
                 if (b + B[n.d] > 16) { R.push([]); b = 0 } R.at(-1).push({ ...n, g }); b += B[n.d]
             });
             sv.setAttribute("width", W); sv.setAttribute("height", R.length * 200);
             sv.innerHTML = R.map((r, ri) => {
-                const t = ri * 200 + 40, bo = t + 50 + 5 + 1, bar = x => `<line class="bar-line" x1=${x} y1=${t} x2=${x} y2=${bo} />`;
-                let o = [0, 1, 2, 3, 4].map(l => `<line class="staff-line" x1=50 y1=${t + l * 14} x2=${W - 20} y2=${t + l * 14} />`).join("") + `<text class="clef-text" x=10 y=${bo - 5}>&#119070;</text>` + bar(60), x = 70, c = 0;
+                const t = ri * 200 + 40, bo = t + 50 + 5 + 1, bar = x => `<line
+     class="bar-line" x1=${x} y1=${t} x2=${x} y2=${bo}/>`;
+                let o = [0, 1, 2, 3, 4].map(l => `<line class="staff-line" x1=50 y1=${t + l * 14} x2=${W - 20} y2=${t + l * 14}/>`).join("") + `<text class="clef-text" x=10 y=${bo - 5}>&#119070;</text>` + bar(60), x = 70, c = 0;
                 for (const n of r) {
-                    if (n.i < 0) o += `<rect class="rest-mark" data-i=${n.g} x=${x - 6} y=${t + 24} width=12 height=8 rx=2 />`;
+                    if (n.i < 0) o += `<rect class="rest-mark" data-i=${n.g} x=${x - 6} y=${t + 24} width=12 height=8 rx=2/>`;
                     else {
                         const s = n.i - 2, y = bo - s * 7, u = s < 4, sx = x + (u ? 6.5 : -6.5), sy = y + (u ? -32 : 32);
                         for (let k = -2; k >= s; k -= 2)o += led(x, bo - k * 7);
                         for (let k = 10; k <= s; k += 2)o += led(x, bo - k * 7);
-                        o += `<ellipse class="note-head${n.d == "w" ? " hollow" : ""}" data-i=${n.g} cx=${x} cy=${y} rx=7 ry=5.5 />` + (n.d == "w" ? "" : `<line class="note-stem" x1=${sx} y1=${y} x2=${sx} y2=${sy} />` + (n.d == "e" ? `<path class="note-stem" fill=none d="M${sx} ${sy}q10 ${u ? 5 : -5} 6 ${u ? 15 : -15}" />` : ""));
+                        o += `<ellipse class="note-head${n.d == "w" ? " hollow" : ""}" data-i=${n.g} cx=${x} cy=${y} rx=7 ry=5.5/>` + (n.d == "w" ? "" : `<line class="note-stem" x1=${sx} y1=${y} x2=${sx} y2=${sy}/>` + (n.d == "e" ? `<path class="note-stem" fill=none d="M${sx} ${sy}q10 ${u ? 5 : -5} 6 ${u ? 15 : -15}"/>` : ""));
                     }
                     o += `<text class="note-label" x=${x - 9} y=${bo + 34}>${n.i < 0 ? "rest" : nm(n.i)}</text>`;
                     x += B[n.d] * 55; if ((c += B[n.d]) > 3.99) { o += bar(x - 5); c = 0 }
@@ -490,7 +487,8 @@
         const clr =
             () => sv.querySelectorAll(".playing").forEach(e => e.classList.remove("playing"));
         const play = () => {
-            if (!song.length || go) return msg(go ? "Already playing!" : "Nothing to play yet!");
+            if (!song.length || go) return
+            msg(go ? "Already playing!" : "Nothing to play yet!");
             go = 1; msg("PLAYINGGG..."); const
                 c = AC(), bt = 60 / $("bpm").value; let t = c.currentTime + .1;
             song.forEach((n, g) => {
@@ -524,5 +522,3 @@
             k ? hit(+k.dataset.i) : i ? (song.splice(+i, 1), draw(), msg("Deleted.")) : ACT[e.target.id]?.()
         };
         draw();
-    </script>
-</body>
