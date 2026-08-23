@@ -115,8 +115,6 @@
         button:hover {
             background: var(--orange);
             color: var(--green);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         button:active {
@@ -131,8 +129,6 @@
 
         button.play-btn:hover {
             background: var(--navy);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         button.stop-btn {
@@ -142,8 +138,6 @@
 
         button.stop-btn:hover {
             background: var(--navy);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         button.small {
@@ -252,127 +246,4 @@
             font-size: 0.75rem;
             font-weight: bold;
         }
-
-        .white-key.pressed .key-hint {
-            background: var(--green);
-            color: var(--cream);
-        }
-
-        #keyboardHint {
-            margin-top: 4px;
-            font-size: 0.85rem;
-            color: var(--grey);
-            text-align: center
-        }
-
-        .white-key:hover {
-            background: var(--yellow);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .white-key:active,
-        .white-key.pressed {
-            background: var(--orange);
-            color: var(--cream);
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: var(--grey);
-            font-size: 0.85rem;
-        }
-
-        #statusMsg {
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: var(--green);
-            min-height: 20px;
-        }
-
-        main {
-            max-width: 1200px;
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 20px;
-            align-items: start;
-        }
-
-        .controls {
-            position: sticky;
-            top: 20px;
-        }
-
-        @media (max-width: 900px) {
-            main {
-                grid-template-columns: 1fr;
-            }
-
-            .controls {
-                position: static;
-            }
-        }
-
-        .grid2 {
-            display: grid;
-            gap: 10px;
-        }
-
-        .grid2 label {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            font-size: 0.85rem;
-            color: var(--blue);
-        }
-
-        .grid2 label.check {
-            flex-direction: row;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .grid2 select,
-        .grid2 input[type=range] {
-            width: 100%;
-        }
-
-        .btns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 14px;
-        }
-
-        .btns button {
-            flex: 1 1 auto;
-        }
-
-        .hollow {
-            fill: var(--paper);
-            stroke-width: 2.5;
-        }
-
-        .playing {
-            fill: var(--red) !important;
-            stroke: var(--red);
-        }
-
-        .note-head,
-        .rest-mark {
-            cursor: pointer;
-        }
     </style>
-</head>
-
-<body>
-    <header>
-        <h1>Sheety</h1>
-        <p>Write a tune of your choice and watch it appear on the staff above, and you can hear it play back based on
-            the notes you click!!!</p>
-    </header>
-    <main>
-        <section>
-            <h2>Controls</h2>
-            <div class="toolbar">
