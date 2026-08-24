@@ -38,7 +38,7 @@
             min-height: 100vh;
             height: 100%;
             overflow-x: hidden;
-            color: #000000;
+            color: #ffffff;
         }
 
         @keyframes drift {
@@ -71,7 +71,7 @@
         }
 
         section h2 {
-            color: #000000;
+            color: var(--paper);
             text-shadow: 0 1px 6px rgba(31, 38, 60, .45);
         }
 
@@ -79,11 +79,11 @@
         .toolbar-group label,
         #keyboardHint,
         footer {
-            color: #000000;
+            color: rgba(255, 255, 255, 0.85);
         }
 
         header {
-            color: #000000;
+            color: var(--paper);
             padding: 19.5px;
             text-align: center;
         }
@@ -131,7 +131,7 @@
 
         .toolbar-group label {
             font-size: 0.85rem;
-            color: #000000;
+            color: var(--grey);
         }
 
         button,
@@ -141,24 +141,24 @@
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             border: 1px solid var(--edge);
-            color: #000000;
+            color: var(--navy);
             box-shadow: 0 4px 14px rgba(31, 38, 60, .18);
             transition: transform .15s, background .15s;
         }
 
         button:hover {
             background: rgba(255, 255, 255, .6);
-            color: #000000;
+            color: var(--navy);
         }
 
         button.play-btn {
             background: rgba(141, 198, 139, .55);
-            color: #000000;
+            color: var(--paper);
         }
 
         button.stop-btn {
             background: rgba(232, 115, 111, .55);
-            color: #000000;
+            color: var(--paper);
         }
 
         .white-key {
@@ -169,11 +169,11 @@
             border-top: none;
             box-shadow: 0 6px 18px rgba(31, 38, 60, .22);
             inset: 0 -1px 0 rgba(255, 255, 255, .4);
-            color: #000000;
+            color: var(--paper);
         }
 
         .white-key .pitch-label {
-            color: #000000;
+            color: rgba(255, 255, 255, .8);
         }
 
         .white-key:hover {
@@ -188,7 +188,7 @@
             border: 3px solid var(--navy);
             border-radius: 8px;
             background: var(--yellow);
-            color: #000000;
+            color: var(--navy);
         }
 
         button {
@@ -197,7 +197,7 @@
             border-radius: 10px;
             background: var(--yellow);
             font-size: 1rem;
-            color: #000000;
+            color: var(--navy);
             cursor: pointer;
             border: 3px solid var(--black-key);
         }
@@ -212,7 +212,7 @@
 
         button:hover {
             background: var(--yellow);
-            color: #000000;
+            color: var(--black-key);
             transform: translateY(-3px) scale(1.03);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
         }
@@ -241,7 +241,7 @@
 
         button.stop-btn {
             background: var(--red);
-            color: #000000;
+            color: var(--paper);
         }
 
         button.stop-btn:hover {
@@ -336,13 +336,13 @@
             justify-content: flex-end;
             padding-bottom: 8px;
             font-size: 0.75rem;
-            color: #000000;
+            color: var(--grey);
             user-select: none;
         }
 
         .white-key .pitch-label {
             font-size: 0.75rem;
-            color: #000000;
+            color: var(--grey);
         }
 
         .white-key .key-hint {
@@ -354,20 +354,20 @@
             border: 2px solid var(--navy);
             border-radius: 6px;
             background: var(--cream);
-            color: #000000;
+            color: var(--navy);
             font-size: 0.75rem;
             font-weight: bold;
         }
 
         .white-key.pressed .key-hint {
             background: var(--green);
-            color: #000000;
+            color: var(--cream);
         }
 
         #keyboardHint {
             margin-top: 10px;
             font-size: 0.85rem;
-            color: #000000;
+            color: var(--grey);
             text-align: center
         }
 
@@ -380,20 +380,20 @@
         .white-key:active,
         .white-key.pressed {
             background: var(--orange);
-            color: #000000;
+            color: var(--cream);
         }
 
         footer {
             text-align: center;
             padding: 20px;
-            color: #000000;
+            color: var(--black-key);
             font-size: 0.85rem;
         }
 
         #statusMsg {
             margin-top: 10px;
             font-size: 0.9rem;
-            color: #000000;
+            color: var(--green);
             min-height: 20px;
         }
 
