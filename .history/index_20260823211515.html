@@ -22,7 +22,6 @@
             --orange: #f2ae72;
             --darkpurple: #34183c;
             --grey: #a9a9a9;
-            --purple: #8e7cc3;
             --black-key: #494646;
             --line-black: #222222;
             --glass: rgba(255, 255, 255, 0.18);
@@ -35,10 +34,10 @@
         body {
             background:
                 radial-gradient(38rem 38rem at 12% 18%, var(--purple), transparent 60%),
-                radial-gradient(38rem 38rem at 88% 12%, var(--red), transparent 60%),
-                radial-gradient(40rem 40rem at 78% 82%, var(--green), transparent 62%),
-                radial-gradient(30rem 30rem at 25% 92%, var(--orange), transparent 60%),
-                var(--blue);
+                radial-gradient(38rem 38rem at 88% 12%, var(--red), transparent 60%);
+            radial-gradient(40rem 40rem at 78% 82%, var(--green), transparent 62%),
+            radial-gradient(30rem 30rem at 25% 92%, var(--orange), transparent 60%),
+            var(--blue);
             background-attachment: fixed;
             min-height: 100vh;
             animation: drift 24s ease-in-out infinite alternate;
@@ -175,7 +174,7 @@
             border: 1px solid var(--edge);
             border-top: none;
             box-shadow: 0 6px 18px rgba(31, 38, 60, .22);
-            inset: 0 -1px 0 rgba(255, 255, 255, .4);
+            inset 0 -1px 0 rgba(255, 255, 255, .4);
             color: var(--paper);
         }
 
