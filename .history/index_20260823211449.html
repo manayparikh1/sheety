@@ -40,12 +40,6 @@
             var(--blue);
             background-attachment: fixed;
             min-height: 100vh;
-            animation: drift 24s ease-in-out infinite alternate;
-        }
-
-        @keyframes drift {
-            from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
-            to   { background-position: 4% 3%, -4% 5%, 3% -4%, -3% -3%, 0 0; }
         }
 
         section,
@@ -258,21 +252,19 @@
 
         #staffWrap {
             overflow-x: auto;
-            border: 1px solid var(--edge);
-            border-radius: 14px;
+            border: 3px dashed var(--grey);
+            border-radius: 8px;
             padding: 10px;
-            background: rgba(255, 255, 255, .45);
-            -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
+            background: var(--paper);
         }
 
         svg#staffSvg {
-            background: transparent;
+            background: var(--cream);
             display: block;
         }
 
         .staff-line {
-            stroke: rgba(20, 20, 40, .75);
+            stroke: var(--line-black);
             stroke-width: 2;
         }
 
@@ -302,13 +294,13 @@
         }
 
         .ledger-line {
-            stroke: rgba(20, 20, 40, .75);
+            stroke: var(--line-black);
             stroke-width: 2;
         }
 
         .note-label {
             font-size: 10px;
-            fill: var(--navy);
+            fill: var(--blue);
             font-family: "Comic Sans MS", cursive, sans-serif;
         }
 

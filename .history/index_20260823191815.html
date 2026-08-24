@@ -40,12 +40,6 @@
             var(--blue);
             background-attachment: fixed;
             min-height: 100vh;
-            animation: drift 24s ease-in-out infinite alternate;
-        }
-
-        @keyframes drift {
-            from { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
-            to   { background-position: 4% 3%, -4% 5%, 3% -4%, -3% -3%, 0 0; }
         }
 
         section,
@@ -135,52 +129,6 @@
             color: var(--grey);
         }
 
-        button,
-        select,
-        input[type="range"] {
-            background: var(--glass-strong);
-            -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--edge);
-            color: var(--navy);
-            box-shadow: 0 4px 14px rgba(31, 38, 60, .18);
-            transition: transform .15s, background .15s;
-        }
-
-        button:hover {
-            background: rgba(255, 255, 255, .6);
-            color: var(--navy);
-        }
-
-        button.play-btn {
-            background: rgba(141, 198, 139, .55);
-            color: var(--paper);
-        }
-
-        button.stop-btn {
-            background: rgba(232, 115, 111, .55);
-            color: var(--paper);
-        }
-
-        .white-key {
-            background: rgba(255, 255, 255, .3);
-            -webkit-backdrop-filter: blur(12px);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--edge);
-            border-top: none;
-            box-shadow: 0 6px 18px rgba(31, 38, 60, .22);
-            inset 0 -1px 0 rgba(255, 255, 255, .4);
-            color: var(--paper);
-        }
-
-        .white-key .pitch-label {
-            color: rgba(255, 255, 255, .8);
-        }
-
-        .white-key:hover {
-            background: rgba(255, 255, 255, .55);
-        }
-
         select,
         input[type="range"] {
             font-family: inherit;
@@ -258,21 +206,19 @@
 
         #staffWrap {
             overflow-x: auto;
-            border: 1px solid var(--edge);
-            border-radius: 14px;
+            border: 3px dashed var(--grey);
+            border-radius: 8px;
             padding: 10px;
-            background: rgba(255, 255, 255, .45);
-            -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
+            background: var(--paper);
         }
 
         svg#staffSvg {
-            background: transparent;
+            background: var(--cream);
             display: block;
         }
 
         .staff-line {
-            stroke: rgba(20, 20, 40, .75);
+            stroke: var(--line-black);
             stroke-width: 2;
         }
 
@@ -302,13 +248,13 @@
         }
 
         .ledger-line {
-            stroke: rgba(20, 20, 40, .75);
+            stroke: var(--line-black);
             stroke-width: 2;
         }
 
         .note-label {
             font-size: 10px;
-            fill: var(--navy);
+            fill: var(--blue);
             font-family: "Comic Sans MS", cursive, sans-serif;
         }
 
