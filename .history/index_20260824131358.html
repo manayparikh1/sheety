@@ -633,60 +633,9 @@
             if (!curStart) return;
             const bts = (now - curStart) / 1000 / (60 / $("bpm").value);
             if (bts < .35) return;
-            song.push({ i: curIdx, d: bts >= 3 ? "w" : bts >= 1.5 ? "h" : bts >= .75 ? "q" : "e" }); draw();
-        };
-        const listen = () => {
-            if (!humOn) return;
-            requestAnimationFrame(listen);
-            if (tk++ % 2) return;
-            ma.getFloatTimeDomainData(raw);
-            const f = detect(raw, ma.context.sampleRate), now = performance.now();
-            const idx = f > 0 ? toIdx(f) : -1;
-            if (idx === cand) candN++; else { cand = idx; candN = 1 }
-            if (candN === 3 && cand !== curIdx) { commit(now); curIdx = cand; curStart = now }
-            document.querySelectorAll(".white-key.pressed").forEach(e => e.classList.remove("pressed"));
-            if (idx >= 0) $("k" + idx)?.classList.add("pressed");
-            $("humNote").textContent = f > 0 ? `${nm(idx)} ·  ${Math.round(f)} Hz` : "listening…";
-            const ct = f > 0 ? Math.max(-50, Math.min(50, cents(f))) : 0;
-            $("humPin").style.left = `calc(${50 + ct}% - 4px)`;
-            $("humPin").style.background = Math.abs(ct) < 12 ? "var(--green)" : "var(--orange)";
-        };
 
-        const humStop = () => {
-            humOn = 0;
-            commit(performance.now());
-            curStart = 0;
-            mic?.getTracks().forEach(t => t.stop());
-            curStart = 0;
-            mic?.getTracks().forEach(t => t.stop());
-            mic = null;
-            $("humBtn").classList.remove("live");
-            $("humBtn").textContent = "🎤 Start Humming";
-            $("humNote").textContent = "-";
-            document.querySelectorAll(".white-key.pressed").forEach(e => e.classList.remove("pressed"));
-            msg("Mic off.");
-        };
-        const humStart = async () => {
-            try {
-                mic = await
-                    navigator.mediaDevices.getUserMedia({
-                        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
-                    });
-            } catch (err) { return msg("Mic blocked (" + err.name + ") - are you on localhost?") }
-            const c = AC(); await c.resume();
-            ma = new AnalyserNode(c, { fftSize: 2048 });
-            new MediaStreamAudioSourceNode(c, { mediaStream: mic }).connect(ma);
-            raw = new Float32Array(ma.fftSize);
-            humOn = 1;
-            curIdx = -2;
-            curStart = 0;
-            cand = -2;
-            candN = 0;
+        }
 
-            $("humBtn").classList.add("live");
-            $("humBtn").textContent = "⏹ STOP HUMMING";
-            msg("I am listening... hum a note please!");
-        };
         const ACT = {
             playBtn: play, stopBtn: stop,
             humBtn: () => humOn ? humStop() : humStart(),

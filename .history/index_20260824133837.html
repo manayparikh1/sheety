@@ -652,41 +652,8 @@
             $("humPin").style.background = Math.abs(ct) < 12 ? "var(--green)" : "var(--orange)";
         };
 
-        const humStop = () => {
-            humOn = 0;
-            commit(performance.now());
-            curStart = 0;
-            mic?.getTracks().forEach(t => t.stop());
-            curStart = 0;
-            mic?.getTracks().forEach(t => t.stop());
-            mic = null;
-            $("humBtn").classList.remove("live");
-            $("humBtn").textContent = "🎤 Start Humming";
-            $("humNote").textContent = "-";
-            document.querySelectorAll(".white-key.pressed").forEach(e => e.classList.remove("pressed"));
-            msg("Mic off.");
-        };
-        const humStart = async () => {
-            try {
-                mic = await
-                    navigator.mediaDevices.getUserMedia({
-                        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
-                    });
-            } catch (err) { return msg("Mic blocked (" + err.name + ") - are you on localhost?") }
-            const c = AC(); await c.resume();
-            ma = new AnalyserNode(c, { fftSize: 2048 });
-            new MediaStreamAudioSourceNode(c, { mediaStream: mic }).connect(ma);
-            raw = new Float32Array(ma.fftSize);
-            humOn = 1;
-            curIdx = -2;
-            curStart = 0;
-            cand = -2;
-            candN = 0;
+        const humStop = ()
 
-            $("humBtn").classList.add("live");
-            $("humBtn").textContent = "⏹ STOP HUMMING";
-            msg("I am listening... hum a note please!");
-        };
         const ACT = {
             playBtn: play, stopBtn: stop,
             humBtn: () => humOn ? humStop() : humStart(),
