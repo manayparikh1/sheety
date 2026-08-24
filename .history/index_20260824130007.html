@@ -599,27 +599,7 @@
         onkeyup = e => H[e.key.toUpperCase()] = 0;
         onkeydown = e => { if (/^(IN|SE|TE)/.test(document.activeElement.tagName)) return; const k = e.key.toUpperCase(); if (k in KP && !H[k]) H[k] = 1, hit(KP[k]); if (e.code == "Space") e.preventDefault(), go ? stop() : play() };
         let mic, ma, raw, humOn = 0, curIdx = -2,
-            curStart = 0, cand = -2, candN = 0, tk = 0;
-        const detect = (buf, rate) => {
-            const b = buf.subarray(0, 1024), n = 1024;
-            let rms = 0;
-            for (let i = 0; i < n; i++) rms += b[i] * b[i];
-            if (Math.sqrt(rms / n) < .012) return -1;
-            const lo = Math.floor(rate / 1000), hi = Math.floor(rate / 80);
-            const cor = new Float32Array(hi + 1);
-            let best = -1, bestC = 0;
-            for (let l = lo; l <= hi; l++) {
-                let c = 0;
-                for (let i = 0; i < n - l; i++) c += b[i] * b[i + l];
-                cor[l] = c / (n - l);
-                if (cor[l] > bestC) { bestC = cor[l]; best = l }
-            }
-            if (best < 0 || bestC < .0015) return -1;
-            const half = Math.round(best / 2);
-            if (half >= lo && cor[half] > bestC * .8) best = half;
-            return rate / best;
-        };
-
+            curStart = 0, cand = -2, candN = 0, tk
         const ACT = {
             playBtn: play, stopBtn: stop,
             humBtn: () => humOn ? humStop() : humStart(),
