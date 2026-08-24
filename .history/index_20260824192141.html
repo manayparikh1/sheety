@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sheety</title>
     <style>
         * {
@@ -269,8 +268,6 @@
         svg#staffSvg {
             background: transparent;
             display: block;
-            width: 100%;
-            height: auto;
         }
 
         .staff-line {
@@ -309,7 +306,7 @@
         }
 
         .note-label {
-            font-size: 13px;
+            font-size: 10px;
             fill: var(--navy);
             font-family: "Comic Sans MS", cursive, sans-serif;
         }
@@ -324,11 +321,6 @@
             justify-content: center;
             padding: 20px 0;
             gap: 2px;
-            overflow-x: auto;
-        }
-
-        #piano .white-key {
-            flex: 0 0 auto;
         }
 
         .white-key {
@@ -408,27 +400,17 @@
         main {
             max-width: 1200px;
             display: grid;
-            grid-template-columns: 300px minmax(0, 1fr);
+            grid-template-columns: 300px 1fr;
             gap: 20px;
             align-items: start;
         }
 
-        .side,
-        .stage {
+        .side {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            min-width: 0;
-        }
-
-        .side {
             position: sticky;
             top: 20px;
-        }
-
-        .side section,
-        .stage section {
-            margin-bottom: 0;
         }
 
         @media (max-width: 900px) {
@@ -447,13 +429,15 @@
         }
 
         .grid2 label {
-            display: block;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
             font-size: 0.85rem;
             color: #000000;
         }
 
         .grid2 label.check {
-            display: flex;
+            flex-direction: row;
             align-items: center;
             gap: 8px;
         }
@@ -461,14 +445,6 @@
         .grid2 select,
         .grid2 input[type=range] {
             width: 100%;
-            display: block;
-            margin-top: 4px;
-        }
-
-        .grid2 label.check input {
-            width: auto;
-            display: inline-block;
-            margin-top: 0;
         }
 
         .btns {
@@ -618,20 +594,19 @@
                 <div id="humHint">Hum, sing, or whistle. HOLD EACH NOTE STEADY and it writes itself onto the staff.
                 </div>
             </section>
-        </div>
-        <div class="stage">
-            <section>
-                <h2>Your Sheet Music</h2>
-                <div id="staffWrap"><svg id="staffSvg"></svg>
-                </div>
-                <div id="keyboardHint">Click any note on the staff to delete it.</div>
-            </section>
-            <section>
-                <h2>Play a Note</h2>
-                <div id="piano"></div>
-                <div id="keyboardHint">Play with your keyboard using the letters under each key.</div>
-            </section>
-        </div>
+            <div>
+                <section>
+                    <h2>Your Sheet Music</h2>
+                    <div id="staffWrap"><svg id="staffSvg"></svg>
+                    </div>
+                    <div id="keyboardHint">Click any note on the staff to delete it.</div>
+                </section>
+                <section>
+                    <h2>Play a Note</h2>
+                    <div id="piano"></div>
+                    <div id="keyboardHint">Play with your keyboard using the letters under each key.</div>
+                </section>
+            </div>
     </main>
     <footer>Made with html, css, and javascript and it has NO frameworks (prebuilt structures).</footer>
     <script>
@@ -653,9 +628,9 @@
             song.forEach((n, g) => {
                 if (b + B[n.d] > 16) { R.push([]); b = 0 } R.at(-1).push({ ...n, g }); b += B[n.d]
             });
-            sv.setAttribute("viewBox", `0 0 ${W} ${R.length * 160}`); sv.setAttribute("height", R.length * 160);
+            sv.setAttribute("width", W); sv.setAttribute("height", R.length * 200);
             sv.innerHTML = R.map((r, ri) => {
-                const t = ri * 160 + 60, bo = t + 50 + 5 + 1, bar = x => `<line class="bar-line" x1=${x} y1=${t} x2=${x} y2=${bo} />`;
+                const t = ri * 200 + 40, bo = t + 50 + 5 + 1, bar = x => `<line class="bar-line" x1=${x} y1=${t} x2=${x} y2=${bo} />`;
                 let o = [0, 1, 2, 3, 4].map(l => `<line class="staff-line" x1=50 y1=${t + l * 14} x2=${W - 20} y2=${t + l * 14} />`).join("") + `<text class="clef-text" x=10 y=${bo - 5}>&#119070;</text>` + bar(60), x = 70, c = 0;
                 for (const n of r) {
                     if (n.i < 0) o += `<rect class="rest-mark" data-i=${n.g} x=${x - 6} y=${t + 24} width=12 height=8 rx=2 />`;
@@ -699,24 +674,22 @@
             curStart = 0, cand = -2, candN = 0, tk = 0;
         const detect = (buf, rate) => {
             const b = buf.subarray(0, 1024), n = 1024;
-            let energy = 0;
-            for (let i = 0; i < n; i++) energy += b[i] * b[i];
-            if (Math.sqrt(energy / n) < .012) return -1;          // too quiet = silence
-            const lo = Math.floor(rate / 1000), hi = Math.min(Math.floor(rate / 80), n - 2);
-            const cor = new Float32Array(hi + 2);
-            for (let l = lo; l <= hi + 1; l++) {
+            let rms = 0;
+            for (let i = 0; i < n; i++) rms += b[i] * b[i];
+            if (Math.sqrt(rms / n) < .012) return -1;
+            const lo = Math.floor(rate / 1000), hi = Math.floor(rate / 80);
+            const cor = new Float32Array(hi + 1);
+            let best = -1, bestC = 0;
+            for (let l = lo; l <= hi; l++) {
                 let c = 0;
                 for (let i = 0; i < n - l; i++) c += b[i] * b[i + l];
-                cor[l] = c;
+                cor[l] = c / (n - l);
+                if (cor[l] > bestC) { bestC = cor[l]; best = l }
             }
-            let d = lo;
-            while (d < hi && cor[d] > cor[d + 1]) d++;             // skip the opening downslope
-            let best = -1, bestC = 0;
-            for (let l = d; l <= hi; l++) if (cor[l] > bestC) { bestC = cor[l]; best = l }
-            if (best <= 0 || bestC < energy * .05) return -1;      // no clear periodicity
-            const y1 = cor[best - 1], y2 = cor[best], y3 = cor[best + 1];
-            const a = (y1 + y3 - 2 * y2) / 2, bb = (y3 - y1) / 2;
-            return rate / (a ? best - bb / (2 * a) : best);        // sub-sample refine
+            if (best < 0 || bestC < .0015) return -1;
+            const half = Math.round(best / 2);
+            if (half >= lo && cor[half] > bestC * .8) best = half;
+            return rate / best;
         };
         const cents = f => { const m = 69 + 12 * Math.log2(f / 440); return (m - Math.round(m)) * 100 };
         const toIdx = f => {
@@ -756,6 +729,8 @@
             commit(performance.now());
             curStart = 0;
             mic?.getTracks().forEach(t => t.stop());
+            curStart = 0;
+            mic?.getTracks().forEach(t => t.stop());
             mic = null;
             $("humBtn").classList.remove("live");
             $("humBtn").textContent = "🎤 Start Humming";
@@ -783,7 +758,6 @@
             $("humBtn").classList.add("live");
             $("humBtn").textContent = "⏹ STOP HUMMING";
             msg("I am listening... hum a note please!");
-            listen();
         };
         const ACT = {
             playBtn: play, stopBtn: stop,
