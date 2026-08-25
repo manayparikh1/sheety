@@ -338,11 +338,6 @@
             fill: var(--navy);
         }
 
-        .key-sig {
-            font-size: 17px;
-            fill: var(--navy);
-        }
-
         #piano {
             display: flex;
             justify-content: center;
@@ -642,9 +637,6 @@
                             <option value="">pick one of the demos...</option>
                         </select>
                     </label>
-                    <label>Key
-                        <select id="key"></select>
-                    </label>
                     <label class="check"><input type="checkbox" id="metro"> Metronome</label>
                 </div>
                 <div class="btns">
@@ -701,7 +693,7 @@
         let sig = [], sigType = 1;
         const acc = i => sig.includes(N[i % 7]) ? sigType : 0;
         const nmk = i => N[i % 7] + (acc(i) ? (sigType > 0 ? "♯" : "♭") : "") + (4 + (i / 7 | 0)); const N = "CDEFGAB", S = [0, 2, 4, 5, 7, 9, 11], K = "ASDFGHJKLZXCVB", B = { w: 4, h: 2, q: 1, e: .5 }, $ = i => document.getElementById(i);
-        const nm = i => N[i % 7] + (4 + (i / 7 | 0)), P = [...Array(14)].map((_, i) => nm(i)), fq = i => 440 * 2 ** ((60 + 12 * (i / 7 | 0) + S[i % 7] + acc(i) - 69) / 12);
+        const nm = i => N[i % 7] + (4 + (i / 7 | 0)), P = [...Array(14)].map((_, i) => nm(i)), fq = i => 440 * 2 ** ((60 + 12 * (i / 7 | 0) + S[i % 7] - 69) / 12);
         const D = { "Twinkle Twinkle": "C4q C4q G4q G4q A4q A4q G4h F4q F4q E4q E4q D4q D4q C4h", "Ode to Joy": "E4q E4q F4q G4q G4q F4q E4q D4q C4q C4q D4q E4q E4h D4q D4h", "Mary's Lamb": "E4q D4q C4q D4q E4q E4q E4h D4q D4q D4h E4q G4q G4h" };
         const pr = s => s.split(" ").map(t =>
             ({ i: P.indexOf(t.slice(0, 2)), d: t[2] })
@@ -721,10 +713,7 @@
             sv.setAttribute("viewBox", `0 0 ${W} ${R.length * 160}`); sv.setAttribute("height", R.length * 160);
             sv.innerHTML = R.map((r, ri) => {
                 const t = ri * 160 + 60, bo = t + 50 + 5 + 1, bar = x => `<line class="bar-line" x1=${x} y1=${t} x2=${x} y2=${bo} />`;
-                let o = [0, 1, 2, 3, 4].map(l => `<line class="staff-line" x1=50 y1=${t + l * 14} x2=${W - 20} y2=${t + l * 14} />`).join("") + `<text class="clef-text" x=10 y=${bo - 5}>&#119070;</text>` + sig.map((L, k) => {
-                    const st = (sigType > 0 ? SHARP_STEP : FLAT_STEP)[L];
-                    return `<text class="key-sig" x=${30 + k * 9} y=${bo - st * 7 + 5}>${sigType > 0 ? "♯" : "♭"}</text>`;
-                }).join("") + bar(60), x = 70, c = 0;
+                let o = [0, 1, 2, 3, 4].map(l => `<line class="staff-line" x1=50 y1=${t + l * 14} x2=${W - 20} y2=${t + l * 14} />`).join("") + `<text class="clef-text" x=10 y=${bo - 5}>&#119070;</text>` + bar(60), x = 70, c = 0;
                 for (const n of r) {
                     if (n.i < 0) o += `<rect class="rest-mark" data-i=${n.g} x=${x - 6} y=${t + 24} width=12 height=8 rx=2 />`;
                     else {
@@ -733,7 +722,7 @@
                         for (let k = 10; k <= s; k += 2)o += led(x, bo - k * 7);
                         o += `<ellipse class="note-head${n.d == "w" ? " hollow" : ""}" data-i=${n.g} cx=${x} cy=${y} rx=7 ry=5.5 />` + (n.d == "w" ? "" : `<line class="note-stem" x1=${sx} y1=${y} x2=${sx} y2=${sy} />` + (n.d == "e" ? `<path class="note-stem" fill=none d="M${sx} ${sy}q10 ${u ? 5 : -5} 6 ${u ? 15 : -15}" />` : ""));
                     }
-                    o += `<text class="note-label" x=${x - 9} y=${bo + 34}>${n.i < 0 ? "rest" : nmk(n.i)}</text>`;
+                    o += `<text class="note-label" x=${x - 9} y=${bo + 34}>${n.i < 0 ? "rest" : nm(n.i)}</text>`;
                     x += B[n.d] * 55; if ((c += B[n.d]) > 3.99) { o += bar(x - 5); c = 0 }
                 }
                 return o + bar(W - 25)
@@ -760,14 +749,6 @@
         $("piano").innerHTML = P.map((p, i) => (KP[K[i]] = i, `<div class="white-key" data-i=${i} id=k${i}><span class="pitch-label">${p}</span><span class="key-hint">${K[i]}</span></div>`)).join("");
         $("demo").innerHTML += Object.keys(D).map(n => `<option>${n}</option>`).join("");
         $("demo").onchange = e => e.target.value && (song = pr(D[e.target.value]), draw(), msg("Loaded " + e.target.value));
-        $("key").innerHTML = Object.keys(SIGS).map(k => `<option>${k}</option>`).join("");
-        $("key").onchange = e => {
-            [sig, sigType] = SIGS[e.target.value];
-            $("piano").querySelectorAll(".white-key").forEach((el, i) =>
-                el.querySelector(".pitch-label").textContent = nmk(i));
-            draw();
-            msg("Key of " + e.target.value);
-        };
         $("bpm").oninput = e => $("bpmOut").textContent = e.target.value;
         onkeyup = e => H[e.key.toUpperCase()] = 0;
         onkeydown = e => { if (/^(IN|SE|TE)/.test(document.activeElement.tagName)) return; const k = e.key.toUpperCase(); if (k in KP && !H[k]) H[k] = 1, hit(KP[k]); if (e.code == "Space") e.preventDefault(), go ? stop() : play() };
