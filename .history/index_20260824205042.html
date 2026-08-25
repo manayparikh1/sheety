@@ -239,7 +239,7 @@
 
         button:active {
             transform: translateY(-1px) scale(0.98);
-            box-shadow: 0 0 0 4px rgba(234, 247, 255, .5), 0 4px 10px rgba(0, 0, 0, .15);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 
         }
 
@@ -584,18 +584,6 @@
             text-shadow: 0 0 6px #9fd8f5;
             animation: burst .6s ease-out forwards;
         }
-
-        @keyframes burst {
-            from {
-                transform: translate(-50%, -50%) scale(1) rotate(0deg);
-                opacity: 1;
-            }
-
-            to {
-                transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.3) rotate(var(--rot));
-                opacity: 0;
-            }
-        }
     </style>
 </head>
 
@@ -834,26 +822,7 @@
             saveBtn: () => (localStorage.sheety = JSON.stringify(song), msg("Saved.")),
             loadBtn: () => localStorage.sheety ? (song = JSON.parse(localStorage.sheety), draw(), msg("Loaded.")) : msg("No saved song.")
         };
-        const burst = (x, y) => {
-            for (let i = 0; i < 14; i++) {
-                const s = document.createElement("span");
-                s.className = "spark";
-                s.textContent = Math.random() < .5 ? "❄" : "✦";
-                const a = Math.random() * Math.PI * 2, d = 30 + Math.random() * 70;
-                s.style.left = x + "px";
-                s.style.top = y + "px";
-                s.style.fontSize = (8 + Math.random() * 12) + "px";
-                s.style.animationDuration = (.45 + Math.random() * .45) + "s";
-                s.style.setProperty("--dx", Math.cos(a) * d + "px");
-                s.style.setProperty("--dy", Math.sin(a) * d + 25 + "px");
-                s.style.setProperty("--rot", (Math.random() * 720 - 360) + "deg");
-                document.body.appendChild(s);
-                s.addEventListener("animationend", () => s.remove());
-
-            }
-        };
         document.onclick = e => {
-            if (e.target.tagName === "BUTTON" || e.target.closest(".white-key")) burst(e.clientX, e.clientY);
             const k = e.target.closest(".white-key"), i = e.target.dataset.i;
             k ? hit(+k.dataset.i) : i ? (song.splice(+i, 1), draw(), msg("Deleted.")) : ACT[e.target.id]?.()
         };

@@ -239,7 +239,7 @@
 
         button:active {
             transform: translateY(-1px) scale(0.98);
-            box-shadow: 0 0 0 4px rgba(234, 247, 255, .5), 0 4px 10px rgba(0, 0, 0, .15);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 
         }
 
@@ -853,7 +853,6 @@
             }
         };
         document.onclick = e => {
-            if (e.target.tagName === "BUTTON" || e.target.closest(".white-key")) burst(e.clientX, e.clientY);
             const k = e.target.closest(".white-key"), i = e.target.dataset.i;
             k ? hit(+k.dataset.i) : i ? (song.splice(+i, 1), draw(), msg("Deleted.")) : ACT[e.target.id]?.()
         };
