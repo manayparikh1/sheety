@@ -18,8 +18,8 @@
                 radial-gradient(2px 2px at 68% 24%, #fff, transparent),
                 radial-gradient(1px 1px at 42% 60%, #fff, transparent),
                 radial-gradient(2px 2px at 88% 72%, #fff, transparent),
-                radial-gradient(1px 1px at 12% 84%, #fff, transparent);
-            background-size: 300px 300px, 420px 420px, 250px 250px, 500px 500px, 360px 360px;
+                radial-gradient(1px 1px at 12% 84%, #fff, transparent),
+                background-size: 300px 300px, 420px 420px, 250px 250px, 500px 500px, 360px 360px;
             animation: snow 16s linear infinite;
         }
 
@@ -68,7 +68,17 @@
             min-height: 100vh;
             height: 100%;
             overflow-x: hidden;
-            color: #12314d;
+            color: #000000;
+        }
+
+        @keyframes drift {
+            from {
+                background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+            }
+
+            to {
+                background-position: 4% 3%, -4% 5%, 3% -4%, -3% -3%, 0 0;
+            }
         }
 
         section,
@@ -91,7 +101,7 @@
         }
 
         section h2 {
-            color: #12314d;
+            color: #000000;
             text-shadow: 0 1px 6px rgba(31, 38, 60, .45);
         }
 
@@ -99,11 +109,11 @@
         .toolbar-group label,
         #keyboardHint,
         footer {
-            color: #12314d;
+            color: #000000;
         }
 
         header {
-            color: #12314d;
+            color: #000000;
             padding: 19.5px;
             text-align: center;
         }
@@ -131,7 +141,7 @@
         }
 
         section h2 {
-            color: #12314d;
+            color: #000000;
             margin-bottom: 10px;
             font-size: 1.4rem;
         }
@@ -151,7 +161,7 @@
 
         .toolbar-group label {
             font-size: 0.85rem;
-            color: #12314d;
+            color: #000000;
         }
 
         button,
@@ -161,24 +171,24 @@
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             border: 1px solid var(--edge);
-            color: #12314d;
+            color: #000000;
             box-shadow: 0 4px 14px rgba(31, 38, 60, .18);
             transition: transform .15s, background .15s;
         }
 
         button:hover {
             background: rgba(255, 255, 255, .6);
-            color: #12314d;
+            color: #000000;
         }
 
         button.play-btn {
             background: rgba(141, 198, 139, .55);
-            color: #12314d;
+            color: #000000;
         }
 
         button.stop-btn {
             background: rgba(232, 115, 111, .55);
-            color: #12314d;
+            color: #000000;
         }
 
         .white-key {
@@ -189,11 +199,11 @@
             border-top: none;
             box-shadow: 0 6px 18px rgba(31, 38, 60, .22);
             inset: 0 -1px 0 rgba(255, 255, 255, .4);
-            color: #12314d;
+            color: #000000;
         }
 
         .white-key .pitch-label {
-            color: #12314d;
+            color: #000000;
         }
 
         .white-key:hover {
@@ -208,7 +218,7 @@
             border: 3px solid var(--navy);
             border-radius: 8px;
             background: var(--yellow);
-            color: #12314d;
+            color: #000000;
         }
 
         button {
@@ -217,7 +227,7 @@
             border-radius: 10px;
             background: var(--yellow);
             font-size: 1rem;
-            color: #12314d;
+            color: #000000;
             cursor: pointer;
             border: 3px solid var(--black-key);
         }
@@ -232,7 +242,7 @@
 
         button:hover {
             background: var(--yellow);
-            color: #12314d;
+            color: #000000;
             transform: translateY(-3px) scale(1.03);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
         }
@@ -261,7 +271,7 @@
 
         button.stop-btn {
             background: var(--red);
-            color: #12314d;
+            color: #000000;
         }
 
         button.stop-btn:hover {
@@ -363,13 +373,13 @@
             justify-content: flex-end;
             padding-bottom: 8px;
             font-size: 0.75rem;
-            color: #12314d;
+            color: #000000;
             user-select: none;
         }
 
         .white-key .pitch-label {
             font-size: 0.75rem;
-            color: #12314d;
+            color: #000000;
         }
 
         .white-key .key-hint {
@@ -381,20 +391,20 @@
             border: 2px solid var(--navy);
             border-radius: 6px;
             background: var(--cream);
-            color: #12314d;
+            color: #000000;
             font-size: 0.75rem;
             font-weight: bold;
         }
 
         .white-key.pressed .key-hint {
             background: var(--green);
-            color: #12314d;
+            color: #000000;
         }
 
         #keyboardHint {
             margin-top: 10px;
             font-size: 0.85rem;
-            color: #12314d;
+            color: #000000;
             text-align: center
         }
 
@@ -407,20 +417,20 @@
         .white-key:active,
         .white-key.pressed {
             background: var(--orange);
-            color: #12314d;
+            color: #000000;
         }
 
         footer {
             text-align: center;
             padding: 20px;
-            color: #12314d;
+            color: #000000;
             font-size: 0.85rem;
         }
 
         #statusMsg {
             margin-top: 10px;
             font-size: 0.9rem;
-            color: #12314d;
+            color: #000000;
             min-height: 20px;
         }
 
@@ -468,7 +478,7 @@
         .grid2 label {
             display: block;
             font-size: 0.85rem;
-            color: #12314d;
+            color: #000000;
         }
 
         .grid2 label.check {
