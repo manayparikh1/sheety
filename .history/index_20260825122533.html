@@ -605,13 +605,6 @@
                 opacity: 0;
             }
         }
-
-        /* quiz panel css NO JS*/
-        #quizToggle {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
     </style>
 </head>
 
@@ -666,8 +659,6 @@
                     <button id="saveBtn">Save</button>
                     <button id="loadBtn">Load</button>
                     <button id="clearBtn">Clear</button>
-                    <input type="checkbox" id="quizToggle">
-                    <label for="quizToggle" class="quiz-open"></label>
                 </div>
                 <div id="statusMsg"></div>
             </section>
@@ -707,70 +698,22 @@
                         <input type="radio" name="q2" id="q2b" class="r"><label for="q2b">4</label>
                         <input type="radio" name="q2" id="q2c" class="w"><label for="q2c">5</label>
                     </div>
-                    <div class="q">
-                        <p>3. Which clef is used for higher notes?</p>
-                        <input type="radio" name="q3" id="q3a" class="r"><label for="q3a">Treble</label>
-                        <input type="radio" name="q3" id="q3b" class="w"><label for="q3b">Bass</label>
-                        <input type="radio" name="q3" id="q3c" class="w"><label for="q3c">Alto</label>
-                    </div>
-                    <div class="q">
-                        <p>4. The treble clef is also known as the…</p>
-                        <input type="radio" name="q4" id="q4a" class="w"><label for="q4a">F clef</label>
-                        <input type="radio" name="q4" id="q4b" class="w"><label for="q4b">C clef</label>
-                        <input type="radio" name="q4" id="q4c" class="r"><label for="q4c">G clef</label>
-                    </div>
-                    <div class="q">
-                        <p>5. How many beats does a whole note last in 4/4?</p>
-                        <input type="radio" name="q5" id="q5a" class="w"><label for="q5a">2</label>
-                        <input type="radio" name="q5" id="q5b" class="w"><label for="q5b">3</label>
-                        <input type="radio" name="q5" id="q5c" class="r"><label for="q5c">4</label>
-                    </div>
 
-                    <div class="q">
-                        <p>6. How many beats is a half note?</p>
-                        <input type="radio" name="q6" id="q6a" class="r"><label for="q6a">2</label>
-                        <input type="radio" name="q6" id="q6b" class="w"><label for="q6b">3</label>
-                        <input type="radio" name="q6" id="q6c" class="w"><label for="q6c">4</label>
-                    </div>
 
-                    <div class="q">
-                        <p>7. How many beats is a quarter note?</p>
-                        <input type="radio" name="q7" id="q7a" class="r"><label for="q7a">1</label>
-                        <input type="radio" name="q7" id="q7b" class="w"><label for="q7b">2</label>
-                        <input type="radio" name="q7" id="q7c" class="w"><label for="q7c">4</label>
-                    </div>
 
-                    <div class="q">
-                        <p>8. How many eighth notes fit into one beat?</p>
-                        <input type="radio" name="q8" id="q8a" class="r"><label for="q8a">2</label>
-                        <input type="radio" name="q8" id="q8b" class="w"><label for="q8b">3</label>
-                        <input type="radio" name="q8" id="q8c" class="w"><label for="q8c">4</label>
-                    </div>
 
-                    <div class="q">
-                        <p>9. What symbol tells you to stay silent?</p>
-                        <input type="radio" name="q9" id="q9a" class="w"><label for="q9a">A slur</label>
-                        <input type="radio" name="q9" id="q9b" class="r"><label for="q9b">A rest</label>
-                        <input type="radio" name="q9" id="q9c" class="w"><label for="q9c">A tie</label>
-                    </div>
-
-                    <div class="q">
-                        <p>10. What does a sharp (♯) do?</p>
-                        <input type="radio" name="q10" id="q10a" class="r"><label for="q10a">Raises a note one
-                            semitone</label>
-                        <input type="radio" name="q10" id="q10b" class="w"><label for="q10b">Lowers it one
-                            semitone</label>
-                        <input type="radio" name="q10" id="q10c" class="w"><label for="q10c">Cancels an
-                            accidental</label>
-                    </div>
-                    <div id="quizFoot">
-                        <p>Score: <span id="quizScore"></span></p>
-                        <p id="clean">No mistakes so far!</p>
-                        <p id="perfect">Perfect score YAY you got a 10 out of 10</p>
-                        <input type="reset" value="Clear all the answers">
-                    </div>
                 </form>
             </section>
+
+
+
+
+
+
+
+
+
+
         </div>
     </main>
     <footer>Made with html, css, and javascript and it has NO frameworks (prebuilt structures).</footer>
@@ -988,5 +931,3 @@
         draw();
     </script>
 </body>
-
-</html>

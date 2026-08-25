@@ -605,13 +605,6 @@
                 opacity: 0;
             }
         }
-
-        /* quiz panel css NO JS*/
-        #quizToggle {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
     </style>
 </head>
 
@@ -771,222 +764,218 @@
                     </div>
                 </form>
             </section>
-        </div>
-    </main>
-    <footer>Made with html, css, and javascript and it has NO frameworks (prebuilt structures).</footer>
-    <script>
-        const SIGS = {
-            "C major": [[], 1],
-            "G major": [["F"], 1],
-            "D major": [["F", "C"], 1],
-            "A major": [["F", "C", "G"], 1],
-            "E major": [["F", "C", "G", "D"], 1],
-            "F major": [["B"], -1],
-            "B♭ major": [["B", "E"], -1],
-            "E♭ major": [["B", "E", "A"], -1],
-            "A minor": [[], 1],
-            "E minor": [["F"], 1],
-            "D minor": [["B"], -1]
-        };
-        const SHARP_STEP = { F: 8, C: 5, G: 9, D: 6, A: 3, E: 7, B: 4 };
-        const FLAT_STEP = { B: 4, E: 7, A: 3, D: 6, G: 2, C: 5, F: 1 };
-        let sig = [], sigType = 1;
-        const acc = i => sig.includes(N[i % 7]) ? sigType : 0;
-        const nmk = i => N[i % 7] + (acc(i) ? (sigType > 0 ? "♯" : "♭") : "") + (4 + (i / 7 | 0)); const N = "CDEFGAB", S = [0, 2, 4, 5, 7, 9, 11], K = "ASDFGHJKLZXCVB", B = { w: 4, h: 2, q: 1, e: .5 }, $ = i => document.getElementById(i);
-        const nm = i => N[i % 7] + (4 + (i / 7 | 0)), P = [...Array(14)].map((_, i) => nm(i)), fq = i => 440 * 2 ** ((60 + 12 * (i / 7 | 0) + S[i % 7] + acc(i) - 69) / 12);
-        const D = { "Twinkle Twinkle": "C4q C4q G4q G4q A4q A4q G4h F4q F4q E4q E4q D4q D4q C4h", "Ode to Joy": "E4q E4q F4q G4q G4q F4q E4q D4q C4q C4q D4q E4q E4h D4q D4h", "Mary's Lamb": "E4q D4q C4q D4q E4q E4q E4h D4q D4q D4h E4q G4q G4h" };
-        const pr = s => s.split(" ").map(t =>
-            ({ i: P.indexOf(t.slice(0, 2)), d: t[2] })
-        );
-        const sv = $("staffSvg"), AC =
-            () => ctx ||= new (window.AudioContext || window.webkitAudioContext), vl = () => $("vol").value / 100;
-        let song = pr(D["Twinkle Twinkle"]), ctx, T = [], V = [], go = 0, st, H = {}, KP = {};
+            <footer>Made with html, css, and javascript and it has NO frameworks (prebuilt structures).</footer>
+            <script>
+                const SIGS = {
+                    "C major": [[], 1],
+                    "G major": [["F"], 1],
+                    "D major": [["F", "C"], 1],
+                    "A major": [["F", "C", "G"], 1],
+                    "E major": [["F", "C", "G", "D"], 1],
+                    "F major": [["B"], -1],
+                    "B♭ major": [["B", "E"], -1],
+                    "E♭ major": [["B", "E", "A"], -1],
+                    "A minor": [[], 1],
+                    "E minor": [["F"], 1],
+                    "D minor": [["B"], -1]
+                };
+                const SHARP_STEP = { F: 8, C: 5, G: 9, D: 6, A: 3, E: 7, B: 4 };
+                const FLAT_STEP = { B: 4, E: 7, A: 3, D: 6, G: 2, C: 5, F: 1 };
+                let sig = [], sigType = 1;
+                const acc = i => sig.includes(N[i % 7]) ? sigType : 0;
+                const nmk = i => N[i % 7] + (acc(i) ? (sigType > 0 ? "♯" : "♭") : "") + (4 + (i / 7 | 0)); const N = "CDEFGAB", S = [0, 2, 4, 5, 7, 9, 11], K = "ASDFGHJKLZXCVB", B = { w: 4, h: 2, q: 1, e: .5 }, $ = i => document.getElementById(i);
+                const nm = i => N[i % 7] + (4 + (i / 7 | 0)), P = [...Array(14)].map((_, i) => nm(i)), fq = i => 440 * 2 ** ((60 + 12 * (i / 7 | 0) + S[i % 7] + acc(i) - 69) / 12);
+                const D = { "Twinkle Twinkle": "C4q C4q G4q G4q A4q A4q G4h F4q F4q E4q E4q D4q D4q C4h", "Ode to Joy": "E4q E4q F4q G4q G4q F4q E4q D4q C4q C4q D4q E4q E4h D4q D4h", "Mary's Lamb": "E4q D4q C4q D4q E4q E4q E4h D4q D4q D4h E4q G4q G4h" };
+                const pr = s => s.split(" ").map(t =>
+                    ({ i: P.indexOf(t.slice(0, 2)), d: t[2] })
+                );
+                const sv = $("staffSvg"), AC =
+                    () => ctx ||= new (window.AudioContext || window.webkitAudioContext), vl = () => $("vol").value / 100;
+                let song = pr(D["Twinkle Twinkle"]), ctx, T = [], V = [], go = 0, st, H = {}, KP = {};
 
-        const msg = m => { $("statusMsg").textContent = m; clearTimeout(st); st = setTimeout(() => $("statusMsg").textContent = "", 3500) };
-        const led = (x, y) => `<line class="ledger-line" x1=${x - 11} y1=${y} x2=${x + 11} y2=${y} />`;
+                const msg = m => { $("statusMsg").textContent = m; clearTimeout(st); st = setTimeout(() => $("statusMsg").textContent = "", 3500) };
+                const led = (x, y) => `<line class="ledger-line" x1=${x - 11} y1=${y} x2=${x + 11} y2=${y} />`;
 
-        function draw() {
-            let R = [[]], b = 0, W = 70 + 16 * 55 + 60;
-            song.forEach((n, g) => {
-                if (b + B[n.d] > 16) { R.push([]); b = 0 } R.at(-1).push({ ...n, g }); b += B[n.d]
-            });
-            sv.setAttribute("viewBox", `0 0 ${W} ${R.length * 160}`); sv.setAttribute("height", R.length * 160);
-            sv.innerHTML = R.map((r, ri) => {
-                const t = ri * 160 + 60, bo = t + 50 + 5 + 1, bar = x => `<line class="bar-line" x1=${x} y1=${t} x2=${x} y2=${bo} />`;
-                let o = [0, 1, 2, 3, 4].map(l => `<line class="staff-line" x1=50 y1=${t + l * 14} x2=${W - 20} y2=${t + l * 14} />`).join("") + `<text class="clef-text" x=10 y=${bo - 5}>&#119070;</text>` + sig.map((L, k) => {
-                    const st = (sigType > 0 ? SHARP_STEP : FLAT_STEP)[L];
-                    return `<text class="key-sig" x=${30 + k * 9} y=${bo - st * 7 + 5}>${sigType > 0 ? "♯" : "♭"}</text>`;
-                }).join("") + bar(60), x = 70, c = 0;
-                for (const n of r) {
-                    if (n.i < 0) o += `<rect class="rest-mark" data-i=${n.g} x=${x - 6} y=${t + 24} width=12 height=8 rx=2 />`;
-                    else {
-                        const s = n.i - 2, y = bo - s * 7, u = s < 4, sx = x + (u ? 6.5 : -6.5), sy = y + (u ? -32 : 32);
-                        for (let k = -2; k >= s; k -= 2)o += led(x, bo - k * 7);
-                        for (let k = 10; k <= s; k += 2)o += led(x, bo - k * 7);
-                        o += `<ellipse class="note-head${n.d == "w" ? " hollow" : ""}" data-i=${n.g} cx=${x} cy=${y} rx=7 ry=5.5 />` + (n.d == "w" ? "" : `<line class="note-stem" x1=${sx} y1=${y} x2=${sx} y2=${sy} />` + (n.d == "e" ? `<path class="note-stem" fill=none d="M${sx} ${sy}q10 ${u ? 5 : -5} 6 ${u ? 15 : -15}" />` : ""));
-                    }
-                    o += `<text class="note-label" x=${x - 9} y=${bo + 34}>${n.i < 0 ? "rest" : nmk(n.i)}</text>`;
-                    x += B[n.d] * 55; if ((c += B[n.d]) > 3.99) { o += bar(x - 5); c = 0 }
-                }
-                return o + bar(W - 25)
-            }).join("");
-        }
-        const tn = (f, t, l, w = $("wave").value, v = vl()) => { const c = AC(), o = new OscillatorNode(c, { type: w, frequency: f }), g = new GainNode(c); g.gain.setValueAtTime(0, t).linearRampToValueAtTime(v, t + .02).exponentialRampToValueAtTime(1e-4, t + l); o.connect(g).connect(c.destination); o.start(t); o.stop(t + l); V.push(o) };
-        const clr =
-            () => sv.querySelectorAll(".playing").forEach(e => e.classList.remove("playing"));
-        const play = () => {
-            if (!song.length || go) return msg(go ? "Already playing!" : "Nothing to play yet!");
-            go = 1; msg("PLAYINGGG..."); const
-                c = AC(), bt = 60 / $("bpm").value; let t = c.currentTime + .1;
-            song.forEach((n, g) => {
-                const l = B[n.d] * bt, ms = (t - c.currentTime) * 1e3;
-                if (n.i >= 0) tn(fq(n.i), t, l);
-                if ($("metro").checked) for (let k = 0; k < Math.max(1, B[n.d]); k++)tn(1e3, t + k * bt, .05, "square", vl() * .3);
-                T.push(setTimeout(() => { clr(); sv.querySelector(`[data-i="${g}"]`)?.classList.add("playing") }, ms)); t += l
-            });
-            T.push(setTimeout(() => { go = 0; clr(); msg("Finished!") }, (t - c.currentTime) * 1e3))
-        };
-        const stop = () => { T.map(clearTimeout); T = []; V.map(o => o.stop()); V = []; clr(); go = 0; msg("Stopped.") };
-        const hit = i => { song.push({ i, d: $("dur").value }); draw(); const e = $("k" + i); e.classList.add("pressed"); setTimeout(() => e.classList.remove("pressed"), 180); tn(fq(i), AC().currentTime, .35) };
-
-        $("piano").innerHTML = P.map((p, i) => (KP[K[i]] = i, `<div class="white-key" data-i=${i} id=k${i}><span class="pitch-label">${p}</span><span class="key-hint">${K[i]}</span></div>`)).join("");
-        $("demo").innerHTML += Object.keys(D).map(n => `<option>${n}</option>`).join("");
-        $("demo").onchange = e => e.target.value && (song = pr(D[e.target.value]), draw(), msg("Loaded " + e.target.value));
-        $("key").innerHTML = Object.keys(SIGS).map(k => `<option>${k}</option>`).join("");
-        $("key").onchange = e => {
-            [sig, sigType] = SIGS[e.target.value];
-            $("piano").querySelectorAll(".white-key").forEach((el, i) =>
-                el.querySelector(".pitch-label").textContent = nmk(i));
-            draw();
-            msg("Key of " + e.target.value);
-        };
-        $("bpm").oninput = e => $("bpmOut").textContent = e.target.value;
-        onkeyup = e => H[e.key.toUpperCase()] = 0;
-        onkeydown = e => { if (/^(IN|SE|TE)/.test(document.activeElement.tagName)) return; const k = e.key.toUpperCase(); if (k in KP && !H[k]) H[k] = 1, hit(KP[k]); if (e.code == "Space") e.preventDefault(), go ? stop() : play() };
-        let mic, ma, raw, humOn = 0, curIdx = -2,
-            curStart = 0, cand = -2, candN = 0, tk = 0;
-        const detect = (buf, rate) => {
-            const b = buf.subarray(0, 1024), n = 1024;
-            let energy = 0;
-            for (let i = 0; i < n; i++) energy += b[i] * b[i];
-            if (Math.sqrt(energy / n) < .012) return -1;          // too quiet = silence
-            const lo = Math.floor(rate / 1000), hi = Math.min(Math.floor(rate / 80), n - 2);
-            const cor = new Float32Array(hi + 2);
-            for (let l = lo; l <= hi + 1; l++) {
-                let c = 0;
-                for (let i = 0; i < n - l; i++) c += b[i] * b[i + l];
-                cor[l] = c;
-            }
-            let d = lo;
-            while (d < hi && cor[d] > cor[d + 1]) d++;             // skip the opening downslope
-            let best = -1, bestC = 0;
-            for (let l = d; l <= hi; l++) if (cor[l] > bestC) { bestC = cor[l]; best = l }
-            if (best <= 0 || bestC < energy * .05) return -1;      // no clear periodicity
-            const y1 = cor[best - 1], y2 = cor[best], y3 = cor[best + 1];
-            const a = (y1 + y3 - 2 * y2) / 2, bb = (y3 - y1) / 2;
-            return rate / (a ? best - bb / (2 * a) : best);        // sub-sample refine
-        };
-        const cents = f => { const m = 69 + 12 * Math.log2(f / 440); return (m - Math.round(m)) * 100 };
-        const toIdx = f => {
-            let m = Math.round(69 + 12 * Math.log2(f / 440));
-            while (m < 60) m += 12;
-            while (m > 83) m -= 12;
-            const oct = Math.floor((m - 60) / 12), pc = (m - 60) % 12;
-            let w = S.indexOf(pc);
-            if (w < 0) w = S.findIndex(s => s > pc);
-            return Math.min(13, oct * 7 + (w < 0 ? 6 : w));
-        };
-        const commit = now => {
-            if (!curStart) return;
-            const bts = (now - curStart) / 1000 / (60 / $("bpm").value);
-            if (bts < .35) return;
-            song.push({ i: curIdx, d: bts >= 3 ? "w" : bts >= 1.5 ? "h" : bts >= .75 ? "q" : "e" }); draw();
-        };
-        const listen = () => {
-            if (!humOn) return;
-            requestAnimationFrame(listen);
-            if (tk++ % 2) return;
-            ma.getFloatTimeDomainData(raw);
-            const f = detect(raw, ma.context.sampleRate), now = performance.now();
-            const idx = f > 0 ? toIdx(f) : -1;
-            if (idx === cand) candN++; else { cand = idx; candN = 1 }
-            if (candN === 3 && cand !== curIdx) { commit(now); curIdx = cand; curStart = now }
-            document.querySelectorAll(".white-key.pressed").forEach(e => e.classList.remove("pressed"));
-            if (idx >= 0) $("k" + idx)?.classList.add("pressed");
-            $("humNote").textContent = f > 0 ? `${nm(idx)} ·  ${Math.round(f)} Hz` : "listening…";
-            const ct = f > 0 ? Math.max(-50, Math.min(50, cents(f))) : 0;
-            $("humPin").style.left = `calc(${50 + ct}% - 4px)`;
-            $("humPin").style.background = Math.abs(ct) < 12 ? "var(--green)" : "var(--orange)";
-        };
-
-        const humStop = () => {
-            humOn = 0;
-            commit(performance.now());
-            curStart = 0;
-            mic?.getTracks().forEach(t => t.stop());
-            mic = null;
-            $("humBtn").classList.remove("live");
-            $("humBtn").textContent = "🎤 Start Humming";
-            $("humNote").textContent = "-";
-            document.querySelectorAll(".white-key.pressed").forEach(e => e.classList.remove("pressed"));
-            msg("Mic off.");
-        };
-        const humStart = async () => {
-            try {
-                mic = await
-                    navigator.mediaDevices.getUserMedia({
-                        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+                function draw() {
+                    let R = [[]], b = 0, W = 70 + 16 * 55 + 60;
+                    song.forEach((n, g) => {
+                        if (b + B[n.d] > 16) { R.push([]); b = 0 } R.at(-1).push({ ...n, g }); b += B[n.d]
                     });
-            } catch (err) { return msg("Mic blocked (" + err.name + ") - are you on localhost?") }
-            const c = AC(); await c.resume();
-            ma = new AnalyserNode(c, { fftSize: 2048 });
-            new MediaStreamAudioSourceNode(c, { mediaStream: mic }).connect(ma);
-            raw = new Float32Array(ma.fftSize);
-            humOn = 1;
-            curIdx = -2;
-            curStart = 0;
-            cand = -2;
-            candN = 0;
+                    sv.setAttribute("viewBox", `0 0 ${W} ${R.length * 160}`); sv.setAttribute("height", R.length * 160);
+                    sv.innerHTML = R.map((r, ri) => {
+                        const t = ri * 160 + 60, bo = t + 50 + 5 + 1, bar = x => `<line class="bar-line" x1=${x} y1=${t} x2=${x} y2=${bo} />`;
+                        let o = [0, 1, 2, 3, 4].map(l => `<line class="staff-line" x1=50 y1=${t + l * 14} x2=${W - 20} y2=${t + l * 14} />`).join("") + `<text class="clef-text" x=10 y=${bo - 5}>&#119070;</text>` + sig.map((L, k) => {
+                            const st = (sigType > 0 ? SHARP_STEP : FLAT_STEP)[L];
+                            return `<text class="key-sig" x=${30 + k * 9} y=${bo - st * 7 + 5}>${sigType > 0 ? "♯" : "♭"}</text>`;
+                        }).join("") + bar(60), x = 70, c = 0;
+                        for (const n of r) {
+                            if (n.i < 0) o += `<rect class="rest-mark" data-i=${n.g} x=${x - 6} y=${t + 24} width=12 height=8 rx=2 />`;
+                            else {
+                                const s = n.i - 2, y = bo - s * 7, u = s < 4, sx = x + (u ? 6.5 : -6.5), sy = y + (u ? -32 : 32);
+                                for (let k = -2; k >= s; k -= 2)o += led(x, bo - k * 7);
+                                for (let k = 10; k <= s; k += 2)o += led(x, bo - k * 7);
+                                o += `<ellipse class="note-head${n.d == "w" ? " hollow" : ""}" data-i=${n.g} cx=${x} cy=${y} rx=7 ry=5.5 />` + (n.d == "w" ? "" : `<line class="note-stem" x1=${sx} y1=${y} x2=${sx} y2=${sy} />` + (n.d == "e" ? `<path class="note-stem" fill=none d="M${sx} ${sy}q10 ${u ? 5 : -5} 6 ${u ? 15 : -15}" />` : ""));
+                            }
+                            o += `<text class="note-label" x=${x - 9} y=${bo + 34}>${n.i < 0 ? "rest" : nmk(n.i)}</text>`;
+                            x += B[n.d] * 55; if ((c += B[n.d]) > 3.99) { o += bar(x - 5); c = 0 }
+                        }
+                        return o + bar(W - 25)
+                    }).join("");
+                }
+                const tn = (f, t, l, w = $("wave").value, v = vl()) => { const c = AC(), o = new OscillatorNode(c, { type: w, frequency: f }), g = new GainNode(c); g.gain.setValueAtTime(0, t).linearRampToValueAtTime(v, t + .02).exponentialRampToValueAtTime(1e-4, t + l); o.connect(g).connect(c.destination); o.start(t); o.stop(t + l); V.push(o) };
+                const clr =
+                    () => sv.querySelectorAll(".playing").forEach(e => e.classList.remove("playing"));
+                const play = () => {
+                    if (!song.length || go) return msg(go ? "Already playing!" : "Nothing to play yet!");
+                    go = 1; msg("PLAYINGGG..."); const
+                        c = AC(), bt = 60 / $("bpm").value; let t = c.currentTime + .1;
+                    song.forEach((n, g) => {
+                        const l = B[n.d] * bt, ms = (t - c.currentTime) * 1e3;
+                        if (n.i >= 0) tn(fq(n.i), t, l);
+                        if ($("metro").checked) for (let k = 0; k < Math.max(1, B[n.d]); k++)tn(1e3, t + k * bt, .05, "square", vl() * .3);
+                        T.push(setTimeout(() => { clr(); sv.querySelector(`[data-i="${g}"]`)?.classList.add("playing") }, ms)); t += l
+                    });
+                    T.push(setTimeout(() => { go = 0; clr(); msg("Finished!") }, (t - c.currentTime) * 1e3))
+                };
+                const stop = () => { T.map(clearTimeout); T = []; V.map(o => o.stop()); V = []; clr(); go = 0; msg("Stopped.") };
+                const hit = i => { song.push({ i, d: $("dur").value }); draw(); const e = $("k" + i); e.classList.add("pressed"); setTimeout(() => e.classList.remove("pressed"), 180); tn(fq(i), AC().currentTime, .35) };
 
-            $("humBtn").classList.add("live");
-            $("humBtn").textContent = "⏹ STOP HUMMING";
-            msg("I am listening... hum a note please!");
-            listen();
-        };
-        const ACT = {
-            playBtn: play, stopBtn: stop,
-            humBtn: () => humOn ? humStop() : humStart(),
-            restBtn: () => (song.push({ i: -1, d: $("dur").value }), draw(), msg("Added a rest.")),
-            undoBtn: () => song.length ? (song.pop(), draw(), msg("Undone.")) : msg("Nothing to undo!"),
-            clearBtn: () => song.length && confirm("Clear the whole song?") && (song = [], draw(), msg("Fresh start!")),
-            saveBtn: () => (localStorage.sheety = JSON.stringify(song), msg("Saved.")),
-            loadBtn: () => localStorage.sheety ? (song = JSON.parse(localStorage.sheety), draw(), msg("Loaded.")) : msg("No saved song.")
-        };
-        const burst = (x, y) => {
-            for (let i = 0; i < 14; i++) {
-                const s = document.createElement("span");
-                s.className = "spark";
-                s.textContent = Math.random() < .5 ? "❄" : "✦";
-                const a = Math.random() * Math.PI * 2, d = 30 + Math.random() * 70;
-                s.style.left = x + "px";
-                s.style.top = y + "px";
-                s.style.fontSize = (8 + Math.random() * 12) + "px";
-                s.style.animationDuration = (.45 + Math.random() * .45) + "s";
-                s.style.setProperty("--dx", Math.cos(a) * d + "px");
-                s.style.setProperty("--dy", Math.sin(a) * d + 25 + "px");
-                s.style.setProperty("--rot", (Math.random() * 720 - 360) + "deg");
-                document.body.appendChild(s);
-                s.addEventListener("animationend", () => s.remove());
+                $("piano").innerHTML = P.map((p, i) => (KP[K[i]] = i, `<div class="white-key" data-i=${i} id=k${i}><span class="pitch-label">${p}</span><span class="key-hint">${K[i]}</span></div>`)).join("");
+                $("demo").innerHTML += Object.keys(D).map(n => `<option>${n}</option>`).join("");
+                $("demo").onchange = e => e.target.value && (song = pr(D[e.target.value]), draw(), msg("Loaded " + e.target.value));
+                $("key").innerHTML = Object.keys(SIGS).map(k => `<option>${k}</option>`).join("");
+                $("key").onchange = e => {
+                    [sig, sigType] = SIGS[e.target.value];
+                    $("piano").querySelectorAll(".white-key").forEach((el, i) =>
+                        el.querySelector(".pitch-label").textContent = nmk(i));
+                    draw();
+                    msg("Key of " + e.target.value);
+                };
+                $("bpm").oninput = e => $("bpmOut").textContent = e.target.value;
+                onkeyup = e => H[e.key.toUpperCase()] = 0;
+                onkeydown = e => { if (/^(IN|SE|TE)/.test(document.activeElement.tagName)) return; const k = e.key.toUpperCase(); if (k in KP && !H[k]) H[k] = 1, hit(KP[k]); if (e.code == "Space") e.preventDefault(), go ? stop() : play() };
+                let mic, ma, raw, humOn = 0, curIdx = -2,
+                    curStart = 0, cand = -2, candN = 0, tk = 0;
+                const detect = (buf, rate) => {
+                    const b = buf.subarray(0, 1024), n = 1024;
+                    let energy = 0;
+                    for (let i = 0; i < n; i++) energy += b[i] * b[i];
+                    if (Math.sqrt(energy / n) < .012) return -1;          // too quiet = silence
+                    const lo = Math.floor(rate / 1000), hi = Math.min(Math.floor(rate / 80), n - 2);
+                    const cor = new Float32Array(hi + 2);
+                    for (let l = lo; l <= hi + 1; l++) {
+                        let c = 0;
+                        for (let i = 0; i < n - l; i++) c += b[i] * b[i + l];
+                        cor[l] = c;
+                    }
+                    let d = lo;
+                    while (d < hi && cor[d] > cor[d + 1]) d++;             // skip the opening downslope
+                    let best = -1, bestC = 0;
+                    for (let l = d; l <= hi; l++) if (cor[l] > bestC) { bestC = cor[l]; best = l }
+                    if (best <= 0 || bestC < energy * .05) return -1;      // no clear periodicity
+                    const y1 = cor[best - 1], y2 = cor[best], y3 = cor[best + 1];
+                    const a = (y1 + y3 - 2 * y2) / 2, bb = (y3 - y1) / 2;
+                    return rate / (a ? best - bb / (2 * a) : best);        // sub-sample refine
+                };
+                const cents = f => { const m = 69 + 12 * Math.log2(f / 440); return (m - Math.round(m)) * 100 };
+                const toIdx = f => {
+                    let m = Math.round(69 + 12 * Math.log2(f / 440));
+                    while (m < 60) m += 12;
+                    while (m > 83) m -= 12;
+                    const oct = Math.floor((m - 60) / 12), pc = (m - 60) % 12;
+                    let w = S.indexOf(pc);
+                    if (w < 0) w = S.findIndex(s => s > pc);
+                    return Math.min(13, oct * 7 + (w < 0 ? 6 : w));
+                };
+                const commit = now => {
+                    if (!curStart) return;
+                    const bts = (now - curStart) / 1000 / (60 / $("bpm").value);
+                    if (bts < .35) return;
+                    song.push({ i: curIdx, d: bts >= 3 ? "w" : bts >= 1.5 ? "h" : bts >= .75 ? "q" : "e" }); draw();
+                };
+                const listen = () => {
+                    if (!humOn) return;
+                    requestAnimationFrame(listen);
+                    if (tk++ % 2) return;
+                    ma.getFloatTimeDomainData(raw);
+                    const f = detect(raw, ma.context.sampleRate), now = performance.now();
+                    const idx = f > 0 ? toIdx(f) : -1;
+                    if (idx === cand) candN++; else { cand = idx; candN = 1 }
+                    if (candN === 3 && cand !== curIdx) { commit(now); curIdx = cand; curStart = now }
+                    document.querySelectorAll(".white-key.pressed").forEach(e => e.classList.remove("pressed"));
+                    if (idx >= 0) $("k" + idx)?.classList.add("pressed");
+                    $("humNote").textContent = f > 0 ? `${nm(idx)} ·  ${Math.round(f)} Hz` : "listening…";
+                    const ct = f > 0 ? Math.max(-50, Math.min(50, cents(f))) : 0;
+                    $("humPin").style.left = `calc(${50 + ct}% - 4px)`;
+                    $("humPin").style.background = Math.abs(ct) < 12 ? "var(--green)" : "var(--orange)";
+                };
 
-            }
-        };
-        document.onclick = e => {
-            if (e.target.tagName === "BUTTON" || e.target.closest(".white-key")) burst(e.clientX, e.clientY);
-            const k = e.target.closest(".white-key"), i = e.target.dataset.i;
-            k ? hit(+k.dataset.i) : i ? (song.splice(+i, 1), draw(), msg("Deleted.")) : ACT[e.target.id]?.()
-        };
-        draw();
-    </script>
+                const humStop = () => {
+                    humOn = 0;
+                    commit(performance.now());
+                    curStart = 0;
+                    mic?.getTracks().forEach(t => t.stop());
+                    mic = null;
+                    $("humBtn").classList.remove("live");
+                    $("humBtn").textContent = "🎤 Start Humming";
+                    $("humNote").textContent = "-";
+                    document.querySelectorAll(".white-key.pressed").forEach(e => e.classList.remove("pressed"));
+                    msg("Mic off.");
+                };
+                const humStart = async () => {
+                    try {
+                        mic = await
+                            navigator.mediaDevices.getUserMedia({
+                                audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+                            });
+                    } catch (err) { return msg("Mic blocked (" + err.name + ") - are you on localhost?") }
+                    const c = AC(); await c.resume();
+                    ma = new AnalyserNode(c, { fftSize: 2048 });
+                    new MediaStreamAudioSourceNode(c, { mediaStream: mic }).connect(ma);
+                    raw = new Float32Array(ma.fftSize);
+                    humOn = 1;
+                    curIdx = -2;
+                    curStart = 0;
+                    cand = -2;
+                    candN = 0;
+
+                    $("humBtn").classList.add("live");
+                    $("humBtn").textContent = "⏹ STOP HUMMING";
+                    msg("I am listening... hum a note please!");
+                    listen();
+                };
+                const ACT = {
+                    playBtn: play, stopBtn: stop,
+                    humBtn: () => humOn ? humStop() : humStart(),
+                    restBtn: () => (song.push({ i: -1, d: $("dur").value }), draw(), msg("Added a rest.")),
+                    undoBtn: () => song.length ? (song.pop(), draw(), msg("Undone.")) : msg("Nothing to undo!"),
+                    clearBtn: () => song.length && confirm("Clear the whole song?") && (song = [], draw(), msg("Fresh start!")),
+                    saveBtn: () => (localStorage.sheety = JSON.stringify(song), msg("Saved.")),
+                    loadBtn: () => localStorage.sheety ? (song = JSON.parse(localStorage.sheety), draw(), msg("Loaded.")) : msg("No saved song.")
+                };
+                const burst = (x, y) => {
+                    for (let i = 0; i < 14; i++) {
+                        const s = document.createElement("span");
+                        s.className = "spark";
+                        s.textContent = Math.random() < .5 ? "❄" : "✦";
+                        const a = Math.random() * Math.PI * 2, d = 30 + Math.random() * 70;
+                        s.style.left = x + "px";
+                        s.style.top = y + "px";
+                        s.style.fontSize = (8 + Math.random() * 12) + "px";
+                        s.style.animationDuration = (.45 + Math.random() * .45) + "s";
+                        s.style.setProperty("--dx", Math.cos(a) * d + "px");
+                        s.style.setProperty("--dy", Math.sin(a) * d + 25 + "px");
+                        s.style.setProperty("--rot", (Math.random() * 720 - 360) + "deg");
+                        document.body.appendChild(s);
+                        s.addEventListener("animationend", () => s.remove());
+
+                    }
+                };
+                document.onclick = e => {
+                    if (e.target.tagName === "BUTTON" || e.target.closest(".white-key")) burst(e.clientX, e.clientY);
+                    const k = e.target.closest(".white-key"), i = e.target.dataset.i;
+                    k ? hit(+k.dataset.i) : i ? (song.splice(+i, 1), draw(), msg("Deleted.")) : ACT[e.target.id]?.()
+                };
+                draw();
+            </script>
 </body>
-
-</html>
