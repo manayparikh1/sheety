@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sheety</title>
+    <style>
+        * {
+            font-family: "Comic Sans MS", "Comic Sans", cursive, sans-serif;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            opacity: .75;
+            background-image:
+                radial-gradient(2px 2px at 20% 10%, #fff, transparent),
+                radial-gradient(2px 2px at 68% 24%, #fff, transparent),
+                radial-gradient(1px 1px at 42% 60%, #fff, transparent),
+                radial-gradient(2px 2px at 88% 72%, #fff, transparent),
+                radial-gradient(1px 1px at 12% 84%, #fff, transparent);
+            background-size: 300px 300px, 420px 420px, 250px 250px, 500px 500px, 360px 360px;
+            animation: snow 16s linear infinite;
+        }
+
+        @keyframes snow {
+            to {
+                background-position: 0 300px, 0 420px, 0 250px, 0 500px, 0 360px;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #dfeef7;
+            --paper: #ffffff;
+            --navy: #1b3a5c;
+            --red: #e8736f;
+            --blue: #2f6690;
+            --green: #6fc7c0;
+            --yellow: #e8f6fd;
+            --orange: #79c8ea;
+            --darkpurple: #34183c;
+            --grey: #a9a9a9;
+            --purple: #9db8e8;
+            --black-key: #494646;
+            --line-black: #222222;
+            --glass: rgba(226, 244, 255, 0.22);
+            --glass-strong: rgba(235, 249, 255, 0.42);
+            --edge: rgba(214, 240, 255, 0.7);
+            --shade: 0 8px 32px rgba(31, 38, 60, .25);
+        }
+
+        html,
+        body {
+            background:
+                radial-gradient(28rem 28rem at 15% 12%, rgba(255, 255, 255, .9), transparent 60%),
+                radial-gradient(34rem 34rem at 85% 18%, #bfe6f7, transparent 62%),
+                radial-gradient(30rem 30rem at 78% 88%, #7fb8dd, transparent 60%),
+                radial-gradient(26rem 26rem at 18% 92%, #cfeaff, transparent 60%),
+                linear-gradient(165deg, #eaf7ff, #9fcbe6 60%, #5b8fb9);
+
+            background-attachment: fixed;
+            min-height: 100vh;
+            height: 100%;
+            overflow-x: hidden;
+            color: #12314d;
+        }
+
+        section,
+        header,
+        footer {
+            background: rgba(214, 197, 197, 0.12);
+            -webkit-backdrop-filter: blur(24px) saturate(140%);
+            backdrop-filter: blur(24px) saturate(140%);
+            border: 1px solid rgba(205, 179, 179, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255, 255, 255, .3);
+        }
+
+        section {
+            border-radius: 20px;
+        }
+
+        header {
+            border-bottom: 1px solid var(--edge);
+            text-shadow: 0 2px 8px rgba(31, 38, 60, .35);
+        }
+
+        section h2 {
+            color: #12314d;
+            text-shadow: 0 1px 6px rgba(31, 38, 60, .45);
+        }
+
+        .grid2 label,
+        .toolbar-group label,
+        #keyboardHint,
+        footer {
+            color: #12314d;
+        }
+
+        header {
+            color: #12314d;
+            padding: 19.5px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 16px;
+        }
+
+        section {
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        section h2 {
+            color: #12314d;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .toolbar-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .toolbar-group label {
+            font-size: 0.85rem;
+            color: #12314d;
+        }
+
+        button,
+        select,
+        input[type="range"] {
+            background: var(--glass-strong);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--edge);
+            color: #12314d;
+            box-shadow: 0 4px 14px rgba(31, 38, 60, .18);
+            transition: transform .15s, background .15s;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, .6);
+            color: #12314d;
+        }
+
+        button.play-btn {
+            background: rgba(141, 198, 139, .55);
+            color: #12314d;
+        }
+
+        button.stop-btn {
+            background: rgba(232, 115, 111, .55);
+            color: #12314d;
+        }
+
+        .white-key {
+            background: rgba(255, 255, 255, .3);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--edge);
+            border-top: none;
+            box-shadow: 0 6px 18px rgba(31, 38, 60, .22);
+            inset: 0 -1px 0 rgba(255, 255, 255, .4);
+            color: #12314d;
+        }
+
+        .white-key .pitch-label {
+            color: #12314d;
+        }
+
+        .white-key:hover {
+            background: rgba(255, 255, 255, .55);
+        }
+
+        select,
+        input[type="range"] {
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 6px;
+            border: 3px solid var(--navy);
+            border-radius: 8px;
+            background: var(--yellow);
+            color: #12314d;
+        }
+
+        button {
+            font-family: inherit;
+            padding: 10px 16px;
+            border-radius: 10px;
+            background: var(--yellow);
+            font-size: 1rem;
+            color: #12314d;
+            cursor: pointer;
+            border: 3px solid var(--black-key);
+        }
+
+        button {
+            transition:
+                background-color 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--yellow);
+            color: #12314d;
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        }
+
+        button:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 0 0 4px rgba(234, 247, 255, .5), 0 4px 10px rgba(0, 0, 0, .15);
+
+        }
+
+        button.play-btn {
+            background: var(--green);
+            transition:
+                background-color 0.25s ease,
+                transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 0.25s ease;
+        }
+
+        button.play-btn:hover {
+            background: var(--green);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.18),
+                0 0 0 3px rgba(255, 255, 255, 0.08)
+        }
+
+        button.stop-btn {
+            background: var(--red);
+            color: #12314d;
+        }
+
+        button.stop-btn:hover {
+            background: var(--red);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.19);
+        }
+
+        button.small {
+            padding: 6px 10px;
+            font-size: 0.85rem;
+        }
+
+        #staffWrap {
+            overflow-x: auto;
+            border: 1px solid var(--edge);
+            border-radius: 14px;
+            padding: 10px;
+            background: rgba(255, 255, 255, .45);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+        }
+
+        svg#staffSvg {
+            background: transparent;
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .staff-line {
+            stroke: rgba(20, 20, 40, .75);
+            stroke-width: 2;
+        }
+
+        .bar-line {
+            stroke: var(--grey);
+            stroke-width: 2;
+        }
+
+        .note-head {
+            fill: var(--navy);
+            stroke: var(--navy);
+            stroke-width: 1;
+        }
+
+        .note-head.playing {
+            fill: var(--red);
+            stroke: var(--red);
+        }
+
+        .note-stem {
+            stroke: var(--navy);
+            stroke-width: 2;
+        }
+
+        .rest-mark {
+            fill: var(--grey);
+        }
+
+        .ledger-line {
+            stroke: rgba(20, 20, 40, .75);
+            stroke-width: 2;
+        }
+
+        .note-label {
+            font-size: 13px;
+            fill: var(--navy);
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
+
+        .clef-text {
+            font-size: 40px;
+            fill: var(--navy);
+        }
+
+        .key-sig {
+            font-size: 17px;
+            fill: var(--navy);
+        }
+
+        #piano {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0;
+            gap: 2px;
+            overflow-x: auto;
+        }
+
+        #piano .white-key {
+            flex: 0 0 auto;
+        }
+
+        .white-key {
+            width: 44px;
+            height: 150px;
+            background: var(--paper);
+            border: 3px solid var(--darkpurple);
+            border-radius: 0 0 8px 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 8px;
+            font-size: 0.75rem;
+            color: #12314d;
+            user-select: none;
+        }
+
+        .white-key .pitch-label {
+            font-size: 0.75rem;
+            color: #12314d;
+        }
+
+        .white-key .key-hint {
+            margin-top: 10px;
+            width: 22px;
+            height: 22px;
+            line-height: 22px;
+            text-align: center;
+            border: 2px solid var(--navy);
+            border-radius: 6px;
+            background: var(--cream);
+            color: #12314d;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .white-key.pressed .key-hint {
+            background: var(--green);
+            color: #12314d;
+        }
+
+        #keyboardHint {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #12314d;
+            text-align: center
+        }
+
+        .white-key:hover {
+            background: var(--yellow);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .white-key:active,
+        .white-key.pressed {
+            background: var(--orange);
+            color: #12314d;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #12314d;
+            font-size: 0.85rem;
+        }
+
+        #statusMsg {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #12314d;
+            min-height: 20px;
+        }
+
+        main {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 300px minmax(0, 1fr);
+            gap: 20px;
+            align-items: start;
+        }
+
+        .side,
+        .stage {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 0;
+        }
+
+        .side {
+            position: sticky;
+            top: 20px;
+        }
+
+        .side section,
+        .stage section {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+
+            .side {
+                position: static;
+            }
+        }
+
+        .grid2 {
+            display: grid;
+            gap: 10px;
+        }
+
+        .grid2 label {
+            display: block;
+            font-size: 0.85rem;
+            color: #12314d;
+        }
+
+        .grid2 label.check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .grid2 select,
+        .grid2 input[type=range] {
+            width: 100%;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .grid2 label.check input {
+            width: auto;
+            display: inline-block;
+            margin-top: 0;
+        }
+
+        .btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .btns button {
+            flex: 1 1 auto;
+        }
+
+        .hollow {
+            fill: var(--paper);
+            stroke-width: 2.5;
+        }
+
+        .playing {
+            fill: var(--red) !important;
+            stroke: var(--red);
+        }
+
+        .note-head,
+        .rest-mark {
+            cursor: pointer;
+        }
+
+        #humBtn {
+            width: 100%;
+            font-size: 1.05rem;
+        }
+
+        #humBtn.live {
+            background: rgba(232, 115, 111, .75);
+            color: var(--paper);
+            animation: pulse 1.1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            50% {
+                box-shadow: 0 0 0 10px rgba(232, 115, 111, .18), 0 4px 14px rgba(31, 38, 60, .2);
+            }
+        }
+
+        #humNote {
+            margin-top: 12px;
+            text-align: center;
+            font-size: 1.8rem;
+            min-height: 2.2rem;
+        }
+
+        #humBar {
+            position: relative;
+            height: 10px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, .25);
+            border: 1px solid rgba(255, 255, 255, .55);
+            overflow: hidden;
+        }
+
+        #humBar::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255, 255, 255, .8);
+        }
+
+        #humPin {
+            position: absolute;
+            top: 1px;
+            bottom: 1px;
+            width: 8px;
+            border-radius: 4px;
+            background: var(--green);
+            left: 50%;
+            transition: left .08s linear, background .15s;
+        }
+
+        #humHint {
+            margin-top: 10px;
+            font-size: .8rem;
+            text-align: center;
+        }
+
+        .spark {
+            position: fixed;
+            pointer-events: none;
+            z-index: 60;
+            color: #eaf7ff;
+            text-shadow: 0 0 6px #9fd8f5;
+            animation: burst .6s ease-out forwards;
+        }
+
+        @keyframes burst {
+            from {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            to {
+                transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(.3) rotate(var(--rot));
+                opacity: 0;
+            }
+        }
+
+        /* quiz panel css NO JS*/
+        #quizToggle {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .quiz-open {
+            font-family: inherit;
+            padding: 10px 16px;
+            border-radius: 10px;
+            background: var(--yellow);
+            font-size: 1rem;
+            color: #12314d;
+            cursor: pointer;
+            border: 3px solid var(--black-key);
+            flex: 1 1 auto;
+            text-align: center;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .quiz-open::after {
+            content: "Take the QUIZ";
+        }
+
+        .quiz-open:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .18);
+        }
+
+        #quizToggle:focus-visible+.quiz-open {
+            outline: 3px solid #47f;
+        }
+
+        body:has(#quizToggle:checked) .quiz-open::after {
+            content: "Close the QUIZ";
+        }
+
+        #quizPanel {
+            display: none;
+        }
+
+        body:has(#quizToggle:checked) #quizPanel {
+            display: block;
+        }
+
+        #quizForm {
+            counter-reset: score;
+        }
+
+        .q {
+            margin-bottom: 16px;
+        }
+
+        .q p {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .q input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .q label {
+            display: inline-block;
+            padding: 6px 12px;
+            margin: 3px;
+            border: 2px solid var(--navy);
+            border-radius: 8px;
+            background: var(--glass-strong);
+            cursor: pointer;
+            font-size: .9rem;
+            transition: background .15s;
+        }
+
+        .q input:checked+label {
+            background: #cfe8ff;
+        }
+
+        .q input.r:checked+label {
+            background: #9fe0b0;
+            counter-increment: score;
+        }
+
+        .q input.w:checked+label {
+            background: #f0aaa6;
+        }
+
+        .q input:focus-visible+label {
+            outline: 3px solid #47f;
+        }
+
+        #quizFoot {
+            border-top: 2px solid var(--edge);
+            padding-top: 12px;
+            margin-top: 8px;
+        }
+
+        #quizScore::after {
+            content: counter(score) " / 10";
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        #clean,
+        #perfect {
+            display: none;
+            font-weight: bold;
+            margin: 6px 0;
+        }
+
+        #quizForm:not(:has(.w:checked)):has(.r:checked) #clean {
+            display: block;
+        }
+
+        #quizForm:not(:has(.q:not(:has(.r:checked)))) #perfect {
+            display: block;
+        }
+
+        input[type="reset"] {
+            font-family: inherit;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 2px solid var(--navy);
+            background: var(--glass-strong);
+            color: #11304b;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Sheety</h1>
+        <p>Write a tune of your choice and watch it appear on the staff above, and you can hear it play back based on
+            the notes you click!!!</p>
+    </header>
+    <main>
+        <div class="side">
+            <section class="controls">
+                <h2>Controls</h2>
+                <div class="grid2">
+                    <label>Instrument
+                        <select id="wave">
+                            <option value="sine">Bell</option>
+                            <option value="triangle">Flute-ish</option>
+                            <option value="square">Robot</option>
+                            <option value="sawtooth">Buzzy</option>
+                        </select>
+                    </label>
+                    <label>Note Length
+                        <select id="dur">
+                            <option value="w">Whole</option>
+                            <option value="h">Half</option>
+                            <option value="q" selected>Quarter</option>
+                            <option value="e">Eigth</option>
+                        </select>
+                    </label>
+                    <label>Tempo: <span id="bpmOut">100</span> BPM
+                        <input type="range" id="bpm" min="40" max="220" value="100">
+                    </label>
+                    <label>Volume
+                        <input type="range" id="vol" min="0" max="100" value="60">
+                    </label>
+                    <label> Demo Tune
+                        <select id="demo">
+                            <option value="">pick one of the demos...</option>
+                        </select>
+                    </label>
+                    <label>Key
+                        <select id="key"></select>
+                    </label>
+                    <label class="check"><input type="checkbox" id="metro"> Metronome</label>
+                </div>
+                <div class="btns">
+                    <button class="play-btn" id="playBtn">Play &#9654;</button>
+                    <button class="stop-btn" id="stopBtn">Stop &#9632;</button>
+                    <button id="restBtn">Rest</button>
+                    <button id="undoBtn">Undo</button>
+                    <button id="saveBtn">Save</button>
+                    <button id="loadBtn">Load</button>
+                    <button id="clearBtn">Clear</button>
+                    <input type="checkbox" id="quizToggle">
+                    <label for="quizToggle" class="quiz-open"></label>
+                </div>
+                <div id="statusMsg"></div>
+            </section>
+            <section class="hum-card">
+                <h2>Hum a Tune</h2>
+                <button id="humBtn">Start Humming</button>
+                <div id="humNote">-</div>
+                <div id="humBar"><i id="humPin"></i></div>
+                <div id="humHint">Hum, sing, or whistle. HOLD EACH NOTE STEADY and it writes itself onto the staff.
+                </div>
+            </section>
+        </div>
+        <div class="stage">
+            <section>
+                <h2>Your Sheet Music</h2>
+                <div id="staffWrap"><svg id="staffSvg"></svg>
+                </div>
+                <div id="keyboardHint">Click any note on the staff to delete it.</div>
+            </section>
+            <section>
+                <h2>Play a Note</h2>
+                <div id="piano"></div>
+                <div id="keyboardHint">Play with your keyboard using the letters under each key.</div>
+            </section>
+            <section id="quizPanel">
+                <h2>Music Theory Quiz</h2>
+                <form id="quizForm">
+                    <div class="q">
+                        <p>1. How many lines does a musical staff have?</p>
+                        <input type="radio" name="q1" id="q1a" class="w"><label for="q1a">4</label>
+                        <input type="radio" name="q1" id="q1b" class="r"><label for="q1b">5</label>
+                        <input type="radio" name="q1" id="q1c" class="w"><label for="q1c">6</label>
+                    </div>
+                    <div class="q">
+                        <p>2. How many spaces are on a staff?</p>
+                        <input type="radio" name="q2" id="q2a" class="w"><label for="q2a">3</label>
+                        <input type="radio" name="q2" id="q2b" class="r"><label for="q2b">4</label>
+                        <input type="radio" name="q2" id="q2c" class="w"><label for="q2c">5</label>
+                    </div>
+                    <div class="q">
+                        <p>3. Which clef is used for higher notes?</p>
+                        <input type="radio" name="q3" id="q3a" class="r"><label for="q3a">Treble</label>
+                        <input type="radio" name="q3" id="q3b" class="w"><label for="q3b">Bass</label>
+                        <input type="radio" name="q3" id="q3c" class="w"><label for="q3c">Alto</label>
+                    </div>
+                    <div class="q">
+                        <p>4. The treble clef is also known as the…</p>
+                        <input type="radio" name="q4" id="q4a" class="w"><label for="q4a">F clef</label>
+                        <input type="radio" name="q4" id="q4b" class="w"><label for="q4b">C clef</label>
+                        <input type="radio" name="q4" id="q4c" class="r"><label for="q4c">G clef</label>
+                    </div>
+                    <div class="q">
+                        <p>5. How many beats does a whole note last in 4/4?</p>
+                        <input type="radio" name="q5" id="q5a" class="w"><label for="q5a">2</label>
+                        <input type="radio" name="q5" id="q5b" class="w"><label for="q5b">3</label>
+                        <input type="radio" name="q5" id="q5c" class="r"><label for="q5c">4</label>
+                    </div>
+
+                    <div class="q">
+                        <p>6. How many beats is a half note?</p>
+                        <input type="radio" name="q6" id="q6a" class="r"><label for="q6a">2</label>
+                        <input type="radio" name="q6" id="q6b" class="w"><label for="q6b">3</label>
+                        <input type="radio" name="q6" id="q6c" class="w"><label for="q6c">4</label>
+                    </div>
+
+                    <div class="q">
+                        <p>7. How many beats is a quarter note?</p>
+                        <input type="radio" name="q7" id="q7a" class="r"><label for="q7a">1</label>
+                        <input type="radio" name="q7" id="q7b" class="w"><label for="q7b">2</label>
+                        <input type="radio" name="q7" id="q7c" class="w"><label for="q7c">4</label>
+                    </div>
+
+                    <div class="q">
+                        <p>8. How many eighth notes fit into one beat?</p>
+                        <input type="radio" name="q8" id="q8a" class="r"><label for="q8a">2</label>
+                        <input type="radio" name="q8" id="q8b" class="w"><label for="q8b">3</label>
+                        <input type="radio" name="q8" id="q8c" class="w"><label for="q8c">4</label>
+                    </div>
+
+                    <div class="q">
+                        <p>9. What symbol tells you to stay silent?</p>
+                        <input type="radio" name="q9" id="q9a" class="w"><label for="q9a">A slur</label>
+                        <input type="radio" name="q9" id="q9b" class="r"><label for="q9b">A rest</label>
+                        <input type="radio" name="q9" id="q9c" class="w"><label for="q9c">A tie</label>
+                    </div>
+
+                    <div class="q">
+                        <p>10. What does a sharp (♯) do?</p>
+                        <input type="radio" name="q10" id="q10a" class="r"><label for="q10a">Raises a note one
+                            semitone</label>
+                        <input type="radio" name="q10" id="q10b" class="w"><label for="q10b">Lowers it one
+                            semitone</label>
+                        <input type="radio" name="q10" id="q10c" class="w"><label for="q10c">Cancels an
+                            accidental</label>
+                    </div>
+                    <div id="quizFoot">
+                        <p>Score: <span id="quizScore"></span></p>
+                        <p id="clean">No mistakes so far!</p>
+                        <p id="perfect">Perfect score YAY you got a 10 out of 10</p>
+                        <input type="reset" value="Clear all the answers">
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+    <footer>Made with html, css, and javascript and it has NO frameworks (prebuilt structures).</footer>
+    <script>
+        const SIGS = {
+            "C major": [[], 1],
+            "G major": [["F"], 1],
+            "D major": [["F", "C"], 1],
+            "A major": [["F", "C", "G"], 1],
+            "E major": [["F", "C", "G", "D"], 1],
+            "F major": [["B"], -1],
+            "B♭ major": [["B", "E"], -1],
+            "E♭ major": [["B", "E", "A"], -1],
+            "A minor": [[], 1],
+            "E minor": [["F"], 1],
+            "D minor": [["B"], -1]
+        };
+        const SHARP_STEP = { F: 8, C: 5, G: 9, D: 6, A: 3, E: 7, B: 4 };
+        const FLAT_STEP = { B: 4, E: 7, A: 3, D: 6, G: 2, C: 5, F: 1 };
+        let sig = [], sigType = 1;
+        const acc = i => sig.includes(N[i % 7]) ? sigType : 0;
+        const nmk = i => N[i % 7] + (acc(i) ? (sigType > 0 ? "♯" : "♭") : "") + (4 + (i / 7 | 0)); const N = "CDEFGAB", S = [0, 2, 4, 5, 7, 9, 11], K = "ASDFGHJKLZXCVB", B = { w: 4, h: 2, q: 1, e: .5 }, $ = i => document.getElementById(i);
+        const nm = i => N[i % 7] + (4 + (i / 7 | 0)), P = [...Array(14)].map((_, i) => nm(i)), fq = i => 440 * 2 ** ((60 + 12 * (i / 7 | 0) + S[i % 7] + acc(i) - 69) / 12);
+        const D = { "Twinkle Twinkle": "C4q C4q G4q G4q A4q A4q G4h F4q F4q E4q E4q D4q D4q C4h", "Ode to Joy": "E4q E4q F4q G4q G4q F4q E4q D4q C4q C4q D4q E4q E4h D4q D4h", "Mary's Lamb": "E4q D4q C4q D4q E4q E4q E4h D4q D4q D4h E4q G4q G4h" };
+        const pr = s => s.split(" ").map(t =>
+            ({ i: P.indexOf(t.slice(0, 2)), d: t[2] })
+        );
+        const sv = $("staffSvg"), AC =
+            () => ctx ||= new (window.AudioContext || window.webkitAudioContext), vl = () => $("vol").value / 100;
+        let song = pr(D["Twinkle Twinkle"]), ctx, T = [], V = [], go = 0, st, H = {}, KP = {};
+
+        const msg = m => { $("statusMsg").textContent = m; clearTimeout(st); st = setTimeout(() => $("statusMsg").textContent = "", 3500) };
+        const led = (x, y) => `<line class="ledger-line" x1=${x - 11} y1=${y} x2=${x + 11} y2=${y} />`;
+
+        function draw() {
+            let R = [[]], b = 0, W = 70 + 16 * 55 + 60;
+            song.forEach((n, g) => {
+                if (b + B[n.d] > 16) { R.push([]); b = 0 } R.at(-1).push({ ...n, g }); b += B[n.d]
+            });
+            sv.setAttribute("viewBox", `0 0 ${W} ${R.length * 160}`); sv.setAttribute("height", R.length * 160);
+            sv.innerHTML = R.map((r, ri) => {
+                const t = ri * 160 + 60, bo = t + 50 + 5 + 1, bar = x => `<line class="bar-line" x1=${x} y1=${t} x2=${x} y2=${bo} />`;
+                let o = [0, 1, 2, 3, 4].map(l => `<line class="staff-line" x1=50 y1=${t + l * 14} x2=${W - 20} y2=${t + l * 14} />`).join("") + `<text class="clef-text" x=10 y=${bo - 5}>&#119070;</text>` + sig.map((L, k) => {
+                    const st = (sigType > 0 ? SHARP_STEP : FLAT_STEP)[L];
+                    return `<text class="key-sig" x=${30 + k * 9} y=${bo - st * 7 + 5}>${sigType > 0 ? "♯" : "♭"}</text>`;
+                }).join("") + bar(60), x = 70, c = 0;
+                for (const n of r) {
+                    if (n.i < 0) o += `<rect class="rest-mark" data-i=${n.g} x=${x - 6} y=${t + 24} width=12 height=8 rx=2 />`;
+                    else {
+                        const s = n.i - 2, y = bo - s * 7, u = s < 4, sx = x + (u ? 6.5 : -6.5), sy = y + (u ? -32 : 32);
+                        for (let k = -2; k >= s; k -= 2)o += led(x, bo - k * 7);
+                        for (let k = 10; k <= s; k += 2)o += led(x, bo - k * 7);
+                        o += `<ellipse class="note-head${n.d == "w" ? " hollow" : ""}" data-i=${n.g} cx=${x} cy=${y} rx=7 ry=5.5 />` + (n.d == "w" ? "" : `<line class="note-stem" x1=${sx} y1=${y} x2=${sx} y2=${sy} />` + (n.d == "e" ? `<path class="note-stem" fill=none d="M${sx} ${sy}q10 ${u ? 5 : -5} 6 ${u ? 15 : -15}" />` : ""));
+                    }
+                    o += `<text class="note-label" x=${x - 9} y=${bo + 34}>${n.i < 0 ? "rest" : nmk(n.i)}</text>`;
+                    x += B[n.d] * 55; if ((c += B[n.d]) > 3.99) { o += bar(x - 5); c = 0 }
+                }
+                return o + bar(W - 25)
+            }).join("");
+        }
+        const tn = (f, t, l, w = $("wave").value, v = vl()) => { const c = AC(), o = new OscillatorNode(c, { type: w, frequency: f }), g = new GainNode(c); g.gain.setValueAtTime(0, t).linearRampToValueAtTime(v, t + .02).exponentialRampToValueAtTime(1e-4, t + l); o.connect(g).connect(c.destination); o.start(t); o.stop(t + l); V.push(o) };
+        const clr =
+            () => sv.querySelectorAll(".playing").forEach(e => e.classList.remove("playing"));
+        const play = () => {
+            if (!song.length || go) return msg(go ? "Already playing!" : "Nothing to play yet!");
+            go = 1; msg("PLAYINGGG..."); const
+                c = AC(), bt = 60 / $("bpm").value; let t = c.currentTime + .1;
+            song.forEach((n, g) => {
+                const l = B[n.d] * bt, ms = (t - c.currentTime) * 1e3;
+                if (n.i >= 0) tn(fq(n.i), t, l);
+                if ($("metro").checked) for (let k = 0; k < Math.max(1, B[n.d]); k++)tn(1e3, t + k * bt, .05, "square", vl() * .3);
+                T.push(setTimeout(() => { clr(); sv.querySelector(`[data-i="${g}"]`)?.classList.add("playing") }, ms)); t += l
+            });
+            T.push(setTimeout(() => { go = 0; clr(); msg("Finished!") }, (t - c.currentTime) * 1e3))
+        };
+        const stop = () => { T.map(clearTimeout); T = []; V.map(o => o.stop()); V = []; clr(); go = 0; msg("Stopped.") };
+        const hit = i => { song.push({ i, d: $("dur").value }); draw(); const e = $("k" + i); e.classList.add("pressed"); setTimeout(() => e.classList.remove("pressed"), 180); tn(fq(i), AC().currentTime, .35) };
+
+        $("piano").innerHTML = P.map((p, i) => (KP[K[i]] = i, `<div class="white-key" data-i=${i} id=k${i}><span class="pitch-label">${p}</span><span class="key-hint">${K[i]}</span></div>`)).join("");
+        $("demo").innerHTML += Object.keys(D).map(n => `<option>${n}</option>`).join("");
+        $("demo").onchange = e => e.target.value && (song = pr(D[e.target.value]), draw(), msg("Loaded " + e.target.value));
+        $("key").innerHTML = Object.keys(SIGS).map(k => `<option>${k}</option>`).join("");
+        $("key").onchange = e => {
+            [sig, sigType] = SIGS[e.target.value];
+            $("piano").querySelectorAll(".white-key").forEach((el, i) =>
+                el.querySelector(".pitch-label").textContent = nmk(i));
+            draw();
+            msg("Key of " + e.target.value);
+        };
+        $("bpm").oninput = e => $("bpmOut").textContent = e.target.value;
+        onkeyup = e => H[e.key.toUpperCase()] = 0;
+        onkeydown = e => { if (/^(IN|SE|TE)/.test(document.activeElement.tagName)) return; const k = e.key.toUpperCase(); if (k in KP && !H[k]) H[k] = 1, hit(KP[k]); if (e.code == "Space") e.preventDefault(), go ? stop() : play() };
+        let mic, ma, raw, humOn = 0, curIdx = -2,
+            curStart = 0, cand = -2, candN = 0, tk = 0;
+        const detect = (buf, rate) => {
+            const b = buf.subarray(0, 1024), n = 1024;
+            let energy = 0;
+            for (let i = 0; i < n; i++) energy += b[i] * b[i];
+            if (Math.sqrt(energy / n) < .012) return -1;          // too quiet = silence
+            const lo = Math.floor(rate / 1000), hi = Math.min(Math.floor(rate / 80), n - 2);
+            const cor = new Float32Array(hi + 2);
+            for (let l = lo; l <= hi + 1; l++) {
+                let c = 0;
+                for (let i = 0; i < n - l; i++) c += b[i] * b[i + l];
+                cor[l] = c;
+            }
+            let d = lo;
+            while (d < hi && cor[d] > cor[d + 1]) d++;             // skip the opening downslope
+            let best = -1, bestC = 0;
+            for (let l = d; l <= hi; l++) if (cor[l] > bestC) { bestC = cor[l]; best = l }
+            if (best <= 0 || bestC < energy * .05) return -1;      // no clear periodicity
+            const y1 = cor[best - 1], y2 = cor[best], y3 = cor[best + 1];
+            const a = (y1 + y3 - 2 * y2) / 2, bb = (y3 - y1) / 2;
+            return rate / (a ? best - bb / (2 * a) : best);        // sub-sample refine
+        };
+        const cents = f => { const m = 69 + 12 * Math.log2(f / 440); return (m - Math.round(m)) * 100 };
+        const toIdx = f => {
+            let m = Math.round(69 + 12 * Math.log2(f / 440));
+            while (m < 60) m += 12;
+            while (m > 83) m -= 12;
+            const oct = Math.floor((m - 60) / 12), pc = (m - 60) % 12;
+            let w = S.indexOf(pc);
+            if (w < 0) w = S.findIndex(s => s > pc);
+            return Math.min(13, oct * 7 + (w < 0 ? 6 : w));
+        };
+        const commit = now => {
+            if (!curStart) return;
+            const bts = (now - curStart) / 1000 / (60 / $("bpm").value);
+            if (bts < .35) return;
+            song.push({ i: curIdx, d: bts >= 3 ? "w" : bts >= 1.5 ? "h" : bts >= .75 ? "q" : "e" }); draw();
+        };
+        const listen = () => {
+            if (!humOn) return;
+            requestAnimationFrame(listen);
+            if (tk++ % 2) return;
+            ma.getFloatTimeDomainData(raw);
+            const f = detect(raw, ma.context.sampleRate), now = performance.now();
+            const idx = f > 0 ? toIdx(f) : -1;
+            if (idx === cand) candN++; else { cand = idx; candN = 1 }
+            if (candN === 3 && cand !== curIdx) { commit(now); curIdx = cand; curStart = now }
+            document.querySelectorAll(".white-key.pressed").forEach(e => e.classList.remove("pressed"));
+            if (idx >= 0) $("k" + idx)?.classList.add("pressed");
+            $("humNote").textContent = f > 0 ? `${nm(idx)} ·  ${Math.round(f)} Hz` : "listening…";
+            const ct = f > 0 ? Math.max(-50, Math.min(50, cents(f))) : 0;
+            $("humPin").style.left = `calc(${50 + ct}% - 4px)`;
+            $("humPin").style.background = Math.abs(ct) < 12 ? "var(--green)" : "var(--orange)";
+        };
+
+        const humStop = () => {
+            humOn = 0;
+            commit(performance.now());
+            curStart = 0;
+            mic?.getTracks().forEach(t => t.stop());
+            mic = null;
+            $("humBtn").classList.remove("live");
+            $("humBtn").textContent = "🎤 Start Humming";
+            $("humNote").textContent = "-";
+            document.querySelectorAll(".white-key.pressed").forEach(e => e.classList.remove("pressed"));
+            msg("Mic off.");
+        };
+        const humStart = async () => {
+            try {
+                mic = await
+                    navigator.mediaDevices.getUserMedia({
+                        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+                    });
+            } catch (err) { return msg("Mic blocked (" + err.name + ") - are you on localhost?") }
+            const c = AC(); await c.resume();
+            ma = new AnalyserNode(c, { fftSize: 2048 });
+            new MediaStreamAudioSourceNode(c, { mediaStream: mic }).connect(ma);
+            raw = new Float32Array(ma.fftSize);
+            humOn = 1;
+            curIdx = -2;
+            curStart = 0;
+            cand = -2;
+            candN = 0;
+
+            $("humBtn").classList.add("live");
+            $("humBtn").textContent = "⏹ STOP HUMMING";
+            msg("I am listening... hum a note please!");
+            listen();
+        };
+        const ACT = {
+            playBtn: play, stopBtn: stop,
+            humBtn: () => humOn ? humStop() : humStart(),
+            restBtn: () => (song.push({ i: -1, d: $("dur").value }), draw(), msg("Added a rest.")),
+            undoBtn: () => song.length ? (song.pop(), draw(), msg("Undone.")) : msg("Nothing to undo!"),
+            clearBtn: () => song.length && confirm("Clear the whole song?") && (song = [], draw(), msg("Fresh start!")),
+            saveBtn: () => (localStorage.sheety = JSON.stringify(song), msg("Saved.")),
+            loadBtn: () => localStorage.sheety ? (song = JSON.parse(localStorage.sheety), draw(), msg("Loaded.")) : msg("No saved song.")
+        };
+        const burst = (x, y) => {
+            for (let i = 0; i < 14; i++) {
+                const s = document.createElement("span");
+                s.className = "spark";
+                s.textContent = Math.random() < .5 ? "❄" : "✦";
+                const a = Math.random() * Math.PI * 2, d = 30 + Math.random() * 70;
+                s.style.left = x + "px";
+                s.style.top = y + "px";
+                s.style.fontSize = (8 + Math.random() * 12) + "px";
+                s.style.animationDuration = (.45 + Math.random() * .45) + "s";
+                s.style.setProperty("--dx", Math.cos(a) * d + "px");
+                s.style.setProperty("--dy", Math.sin(a) * d + 25 + "px");
+                s.style.setProperty("--rot", (Math.random() * 720 - 360) + "deg");
+                document.body.appendChild(s);
+                s.addEventListener("animationend", () => s.remove());
+
+            }
+        };
+        document.onclick = e => {
+            if (e.target.tagName === "BUTTON" || e.target.closest(".white-key")) burst(e.clientX, e.clientY);
+            const k = e.target.closest(".white-key"), i = e.target.dataset.i;
+            k ? hit(+k.dataset.i) : i ? (song.splice(+i, 1), draw(), msg("Deleted.")) : ACT[e.target.id]?.()
+        };
+        draw();
+    </script>
+</body>
+
+</html>
